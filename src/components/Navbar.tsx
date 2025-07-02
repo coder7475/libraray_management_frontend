@@ -17,7 +17,7 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="w-full bg-background border-b border-border">
+    <nav className="w-full bg-background">
       <div className="max-w-screen-2xl mx-auto flex items-center justify-between px-4 md:px-6 py-3">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
