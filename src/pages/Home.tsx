@@ -1,13 +1,18 @@
 import { Counter } from "@/components/Counter";
+import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { useGetPokemonByNameQuery } from "@/services/pokemon";
 
 const Home = () => {
     // Using a query hook automatically fetches data and returns query values
     const { data, error, isLoading } = useGetPokemonByNameQuery('bulbasaur')
-    console.log(data);
+    
     return (
-        <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-6">
+      <>
+      <header className="flex items-center justify-between px-6 py-4 shadow-md bg-white dark:bg-gray-900">        
+        <Navbar />
+      </header>
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-6">
             <h1 className="text-3xl font-bold mb-2">Welcome to the Home Page</h1>
             <p className="text-gray-600 dark:text-gray-300 mb-4">This is your starting point. Explore the app!</p>
             <Counter />
@@ -39,6 +44,11 @@ const Home = () => {
               ) : null}
             </div>
         </div>
+        <footer className="px-6 py-4 bg-gray-100 dark:bg-gray-800 text-center text-sm text-gray-500">
+          Footer
+      </footer>
+      </>
+        
     );
 };
 
