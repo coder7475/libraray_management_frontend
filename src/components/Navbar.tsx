@@ -17,7 +17,7 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="w-full bg-background">
+    <nav className="w-full bg-background border-b border-border">
       <div className="max-w-screen-2xl mx-auto flex items-center justify-between px-4 md:px-6 py-3">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
@@ -79,7 +79,7 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       <div
-        className={`
+        className={` flex flex-col items-end justify-end 
           md:hidden transition-all overflow-hidden bg-background border-t border-border
           ${menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
         `}
@@ -99,7 +99,7 @@ export function Navbar() {
             ))}
           </NavigationMenuList>
         </NavigationMenu>
-        <div className="flex justify-end px-4 py-2">
+        <div className="flex justify-end px-4 py-2 border-t">
           <ModeToggle />
         </div>
       </div>
