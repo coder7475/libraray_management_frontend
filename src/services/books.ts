@@ -7,8 +7,8 @@ export const bookApi = createApi({
   reducerPath: 'bookApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://library-management-apis.vercel.app/api' }),
   endpoints: (builder) => ({
-    getBooks: builder.query<IBookApiReseponse, void>({
-        query: () => `books/?sortBy=createdAt&sort=desc&limit=10`
+    getBooks: builder.query<IBookApiReseponse, {page: number, limit?: number}>({
+        query: ({ page, limit = 8 }) => `books?page=${page}&limit=${limit}`
     })
     // getPokemonByName: builder.query<Pokemon, string>({
     //   query: (name) => `pokemon/${name}`,

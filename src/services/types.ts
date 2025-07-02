@@ -1,7 +1,10 @@
 export interface IBookApiReseponse {
   success: boolean
   message: string
-  data: IBook[]
+  data: IBook[],
+  totalPages: number;
+  currentPage: number;
+  totalCount: number;
 }
 
 export interface IBook {

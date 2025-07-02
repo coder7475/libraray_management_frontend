@@ -1,9 +1,13 @@
 import { Table, TableHead, TableRow, TableCell, TableBody } from "@/components/ui/table";
 import { useGetBooksQuery } from "@/services/books";
+import { useState } from "react";
 
 export function BookTable() {
-  const { data, isLoading, isError, error } = useGetBooksQuery();
-
+    const [page, setPage] = useState(1);
+    const limit = 8;
+  
+    const { data, isLoading, isError, error, isFetching } = useGetBooksQuery({ page, limit });
+  
   if (isLoading) {
     return <div className="p-4 text-center">Loading books...</div>;
   }
