@@ -1,5 +1,5 @@
 import App from "@/App";
-import About from "@/pages/About";
+import Books from "@/pages/Books";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/NotFound";
 import { createBrowserRouter } from "react-router";
@@ -15,13 +15,14 @@ const router = createBrowserRouter([
             element: <Home/>
         },
         {
-            path: "about",
-            element: <About/>
+            path: "books",
+            element: <Books />
         },
         {
           path: "*",
           element: <NotFound />
-        }
+        },
+
       ]
     },
 ]);

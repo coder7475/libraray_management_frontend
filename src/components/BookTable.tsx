@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Table, TableHead, TableRow, TableCell, TableBody } from "@/components/ui/table";
 import { useGetBooksQuery } from "@/services/books";
+import { Table, TableHead, TableRow, TableCell, TableBody, TableHeader } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export function BookTable() {
   const [page, setPage] = useState(1);
-  const limit = 8;
+  const limit = 10;
 
   const { data, isLoading, isError, error, isFetching } = useGetBooksQuery({ page, limit });
 
@@ -24,39 +25,42 @@ export function BookTable() {
 
       {!isLoading && !isError && (
         <>
-          <div className="overflow-x-auto rounded-xl shadow">
+          <div className="shadow">
             <Table>
-              <TableHead>
+              <TableHeader className="w-[100px]">
                 <TableRow>
-                  <TableCell className="font-semibold">Title</TableCell>
-                  <TableCell className="font-semibold">Author</TableCell>
-                  <TableCell className="font-semibold">Actions</TableCell>
+                  <TableHead className="font-semibold">Title</TableHead>
+                  <TableHead className="font-semibold">Author</TableHead>
+                  <TableHead className="font-semibold">Genre</TableHead>
+                  <TableHead className="font-semibold">ISBN</TableHead>
+                  <TableHead className="font-semibold">Copies</TableHead>
+                  <TableHead className="font-semibold">Availability</TableHead>
+                  <TableHead className="font-semibold">Actions</TableHead>
                 </TableRow>
-              </TableHead>
-              <TableBody>
+              </TableHeader>
+              <TableBody className="w-[100px]">
                 {books.map((book) => (
                   <TableRow key={book._id}>
                     <TableCell>{book.title}</TableCell>
                     <TableCell>{book.author}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline">{book.genre}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <span className="font-mono text-xs">{book.isbn}</span>
+                    </TableCell>
+                    <TableCell>{book.copies}</TableCell>
+                    <TableCell>
+                      {book.available ? (
+                        <Badge variant="outline">Available</Badge>
+                      ) : (
+                        <Badge variant="destructive">Not Available</Badge>
+                      )}
+                    </TableCell>
                     <TableCell className="space-x-2">
-                      <button
-                        className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-                        // onClick={() => onEdit(book)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
-                        // onClick={() => onDelete(book.id)}
-                      >
-                        Delete
-                      </button>
-                      <button
-                        className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
-                        // onClick={() => onBorrow(book.id)}
-                      >
-                        Borrow
-                      </button>
+                      <Button size="sm" variant="secondary">Edit</Button>
+                      <Button size="sm" variant="destructive">Delete</Button>
+                      <Button size="sm">Borrow</Button>
                     </TableCell>
                   </TableRow>
                 ))}
