@@ -21,33 +21,33 @@ Includes hot module replacement, opinionated ESLint configuration, and ready-to-
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+git clone git@github.com:coder7475/libraray_management_frontend.git
+cd libraray_management_frontend
 pnpm install
 ```
 
 Run the development server:
 
 ```bash
-pnpm dev
+pnpm run dev
 ```
 
 Build for production:
 
 ```bash
-pnpm build
+pnpm run build
 ```
 
 Preview the production build locally:
 
 ```bash
-pnpm preview
+pnpm run preview
 ```
 
 Deploy to Cloudflare (if configured):
 
 ```bash
-pnpm deploy
+pnpm run deploy
 ```
 
 ---
