@@ -1,18 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit'
 import counterReducer from '@/global/slices/counterSlice'
-import { pokemonApi } from '@/services/pokemon';
+import { bookApi } from '@/services/books';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
-    [pokemonApi.reducerPath]: pokemonApi.reducer,
+    [bookApi.reducerPath]: bookApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
         serializableCheck: false,
-    }).concat(pokemonApi.middleware),
+    }).concat(bookApi.middleware),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
