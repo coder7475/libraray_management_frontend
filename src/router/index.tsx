@@ -1,6 +1,7 @@
 import App from "@/App";
 import About from "@/pages/About";
 import Books from "@/pages/Books";
+import ContactUs from "@/pages/ContactUs";
 import CreateBookPage from "@/pages/CreateBook";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/NotFound";
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
         {
           path: "about",
           element: <About/>
+        },
+        {
+          path: "contact",
+          element: <ContactUs />
         }
         ,
         {

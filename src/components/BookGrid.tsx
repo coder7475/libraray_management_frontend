@@ -16,8 +16,11 @@ export function BookGrid() {
 
   return (
     <div className="p-4 space-y-4">
-      {isLoading || isFetching ? (
-        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+      {isLoading || isFetching ? (        
+        <div className="flex flex-row items-center justify-center gap-3 py-6">
+          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+          <span className="text-lg font-medium text-gray-700 dark:text-gray-200">Loading Books...</span>
+        </div>
       ) : isError ? (
         <div className="text-center text-red-500">Error fetching books: {String(error)}</div>
       ) : books.length === 0 ? (

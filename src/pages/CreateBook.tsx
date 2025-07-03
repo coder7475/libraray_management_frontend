@@ -58,7 +58,7 @@ export default function CreateBookPage() {
   };
 
   return (
-<div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900">
       <Navbar />
       <main className="flex-1 flex flex-col justify-center items-center px-2 py-8">
         <div className="w-full max-w-2xl mx-auto bg-white dark:bg-gray-800 shadow-xl rounded-3xl p-8 sm:p-10 border border-gray-200 dark:border-gray-700">
