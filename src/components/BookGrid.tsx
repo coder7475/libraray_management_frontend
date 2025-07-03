@@ -31,7 +31,7 @@ export function BookGrid() {
   const HEADER_HEIGHT =
     "min-h-[44px] sm:min-h-[56px] md:min-h-[64px]"; // slightly smaller on mobile
   const CONTENT_HEIGHT =
-    "flex-1 min-h-[60px] sm:min-h-[100px] md:min-h-[160px] lg:min-h-[200px]";
+    "flex-1 min-h-[60px] sm:min-h-[100px] md:min-h-[160px] lg:min-h-[180px]";
   const FOOTER_HEIGHT =
     "min-h-[36px] sm:min-h-[44px] md:min-h-[48px]";
 
@@ -109,11 +109,11 @@ export function BookGrid() {
                   {/* Description with fixed height for alignment */}
                   <div className="flex-1">
                     <p
-                      className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 line-clamp-4 min-h-[3.5rem] sm:min-h-[4.5rem] max-h-[4.5rem] overflow-hidden"
+                      className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 line-clamp-4 min-h-[3rem] sm:min-h-[4rem] max-h-[4.5rem] overflow-hidden"
                       title={book.description}
                     >
                       {book.description && book.description.length > 150
-                        ? book.description.slice(0, 150) + "…"
+                        ? book.description.slice(0, 80) + "…"
                         : book.description}
                     </p>
                   </div>
