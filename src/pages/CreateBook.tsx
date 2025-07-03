@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { IBook } from "@/services/types";
 import { createBookSchema } from "@/validators/CreateBookSchema";
@@ -49,16 +49,8 @@ export default function CreateBookPage() {
 
       navigate("/books");
     } catch (error: unknown) {
-      // error is likely unknown, so use type unknown and narrow
-      let message = "Failed to create book.";
-      if (
-        typeof error === "object" &&
-        error !== null &&
-        "data" in error &&
-        typeof (error)?.data?.message === "string"
-      ) {
-        message = (error)?.data?.message;
-      }
+      console.error(error);
+      const message = "Failed to create book.";      
       toast(message, { description: "Error", className: "text-red-600" });
     }
   };
