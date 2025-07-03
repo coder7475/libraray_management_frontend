@@ -12,7 +12,7 @@ export function Navbar() {
 
   const navLinks = [
     { href: "/books", label: "All Books" },
-    { href: "/add-book", label: "Add Book" },
+    { href: "/create-book", label: "Add Book" },
     { href: "/borrow-summary", label: "Borrow Summary" },
   ];
 

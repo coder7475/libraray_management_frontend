@@ -39,7 +39,7 @@ export default function CreateBookPage() {
 
   const onSubmit = async (data: IBook) => {
     try {
-      console.log(data);
+
       await createBook({
         ...data,
         copies: Number(data.copies),
@@ -186,6 +186,7 @@ export default function CreateBookPage() {
           </Button>
         </form>
       </Form>
+      <Toaster/>
     </div>
   );
 }
