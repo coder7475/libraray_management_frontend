@@ -7,6 +7,12 @@ export interface IBookApiReseponse {
   totalCount: number;
 }
 
+export interface IBookReseponse {
+  success: boolean
+  message: string
+  data: IBook
+}
+
 export interface ICreateBookApiResponse {
   sucess: boolean,
   message: string,
