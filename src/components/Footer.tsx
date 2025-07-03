@@ -71,7 +71,7 @@ export function Footer() {
       </div>
       <div className="pb-2">
         <p className="text-center text-xs text-gray-500 dark:text-gray-400">
-          &copy; 2024 All rights reserved by your website.
+          &copy; 2024 All rights reserved by Book Library.
         </p>
       </div>
     </footer>
