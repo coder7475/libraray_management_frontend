@@ -6,12 +6,16 @@ import { BookGrid } from "@/components/BookGrid";
 const Home = () => {
   return (
     <>
-      <header className="flex items-center justify-between lg:px-6 lg:py-4 shadow-md bg-white dark:bg-gray-900">
+      <header className="sticky top-0 z-30 flex items-center justify-between px-4 py-3 lg:px-10 lg:py-6 shadow-lg bg-gradient-to-b from-white/90 to-white/70 dark:from-gray-900/90 dark:to-gray-900/70 backdrop-blur-md">
         <Navbar />
       </header>
-      <main className="flex flex-col items-center min-h-[60vh] space-y-6 h-screen">
-        <Hero />
-        <BookGrid />
+      <main className="flex flex-col items-center min-h-[70vh] h-full w-full bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 py-10 px-2 space-y-10">
+        <div className="w-full max-w-5xl">
+          <Hero />
+        </div>
+        <div className="w-full max-w-6xl">
+          <BookGrid />
+        </div>
       </main>
       <Footer />
     </>
