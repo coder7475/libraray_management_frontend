@@ -1,7 +1,6 @@
 import { BookTable } from "@/components/BookTable";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
-import { Toaster } from "sonner";
 
 const Books = () => {
   return (
@@ -24,7 +23,7 @@ const Books = () => {
       <footer className="w-full mt-auto">
         <Footer />
       </footer>
-      <Toaster />
+
     </div>
   );
 };

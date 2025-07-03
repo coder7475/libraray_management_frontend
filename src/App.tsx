@@ -1,4 +1,5 @@
 import { Outlet } from "react-router";
+import { Toaster } from "sonner";
 
 function App() {
   return (
@@ -6,6 +7,7 @@ function App() {
       <main className="flex-1">
         <Outlet />
       </main>
+      <Toaster />
     </div>
   );
 }
