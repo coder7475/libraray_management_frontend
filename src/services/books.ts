@@ -1,8 +1,6 @@
-// Need to use the React-specific entry point to import createApi
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { IBook, IBookApiReseponse, IBookReseponse, ICreateBookApiResponse } from './types'
+import type { IBook, IBookApiReseponse, IBookReseponse, ICreateBookApiResponse, IDeleteBook } from './types'
 
-// Define a service using a base URL and expected endpoints
 export const bookApi = createApi({
   reducerPath: 'bookApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://library-management-apis.vercel.app/api' }),
@@ -32,9 +30,16 @@ export const bookApi = createApi({
       }),
       invalidatesTags: ["Books"], 
     }),
-  }),
+    deleteBook: builder.mutation<IDeleteBook, { id: string | undefined }>({
+      query: ({ id }) => ({
+        url: `/books/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Books"],
+    }),
+  })  
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetBooksQuery, useGetBookByIdQuery,useCreateBookMutation, useUpdateBookMutation   } = bookApi
+export const { useGetBooksQuery, useGetBookByIdQuery,useCreateBookMutation, useUpdateBookMutation, useDeleteBookMutation  } = bookApi

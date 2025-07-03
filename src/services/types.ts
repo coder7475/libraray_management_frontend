@@ -19,6 +19,12 @@ export interface ICreateBookApiResponse {
   data: IBook
 }
 
+export interface IDeleteBook {
+  sucess: boolean,
+  message: string,
+  data: null
+}
+
 export interface IBook {
   _id?: string
   title: string

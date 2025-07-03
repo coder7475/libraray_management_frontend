@@ -1,14 +1,19 @@
 import { useState } from "react";
-import { useGetBooksQuery, useUpdateBookMutation } from "@/services/books";
+
 import { Table, TableHead, TableRow, TableCell, TableBody, TableHeader } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
+
+import { useDeleteBookMutation, useGetBooksQuery, useUpdateBookMutation } from "@/services/books";
 import type { IBook } from "@/services/types";
 import type { UpdateBookFromValues } from "@/validators/CreateBookSchema";
-import { toast } from "sonner";
+
 import EditBookModal from "./EditBookModal";
+import DeleteConfirmModal from "./DeleteConfirmModal";
 
 export function BookTable() {
   const [page, setPage] = useState(1);
@@ -47,6 +52,26 @@ export function BookTable() {
     } catch (error) {
       console.error(error);
       toast("Failed to update book.",);
+    }
+  };
+
+  // Managing Delete Modal
+  const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation();
+  const [bookToDelete, setBookToDelete] = useState<IBook | null>(null);
+
+  const openDeleteModal = (book: IBook) => setBookToDelete(book);
+  const closeDeleteModal = () => setBookToDelete(null);
+
+  const handleDeleteConfirm = async () => {
+    if (!bookToDelete) return;
+    try {
+      await deleteBook({ id: bookToDelete?._id}).unwrap();
+      toast("Book deleted successfully!" );
+      closeDeleteModal();
+    } catch (error) {
+      console.error(error);
+      toast("Failed to delete book. Try Again");
+      closeDeleteModal();
     }
   };
 
@@ -130,6 +155,7 @@ export function BookTable() {
                         onClick={e => {
                           e.stopPropagation();
                           // Delete logic here
+                          openDeleteModal(book);
                         }}
                       >
                         Delete
@@ -191,6 +217,14 @@ export function BookTable() {
         book={editBook}
         onSubmit={handleEditSubmit}
         isLoading={isUpdating}
+      />
+      {/* Delete Modal  */}
+       <DeleteConfirmModal
+        open={!!bookToDelete}
+        onClose={closeDeleteModal}
+        onConfirm={handleDeleteConfirm}
+        isLoading={isDeleting}
+        bookTitle={bookToDelete?.title || ""}
       />
     </div>
   );
