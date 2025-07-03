@@ -5,6 +5,7 @@ import ContactUs from "@/pages/ContactUs";
 import CreateBookPage from "@/pages/CreateBook";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/NotFound";
+import Terms from "@/pages/Terms";
 import { createBrowserRouter } from "react-router";
 
 
@@ -32,13 +33,15 @@ const router = createBrowserRouter([
         {
           path: "contact",
           element: <ContactUs />
-        }
-        ,
+        },
+        {
+          path: "terms",
+          element: <Terms />
+        },
         {
           path: "*",
           element: <NotFound />
-        },
-
+        }
       ]
     },
 ]);
