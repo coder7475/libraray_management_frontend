@@ -9,7 +9,8 @@ export const bookApi = createApi({
   tagTypes: ['Books'],
   endpoints: (builder) => ({
     getBooks: builder.query<IBookApiReseponse, {page: number, limit?: number}>({
-        query: ({ page, limit = 8 }) => `books?page=${page}&limit=${limit}`
+        query: ({ page, limit = 8 }) => `books?page=${page}&limit=${limit}`,
+        providesTags: ['Books']
     }),
     createBook: builder.mutation<ICreateBookApiResponse, IBook>({
       query: (newBook) => ({

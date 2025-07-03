@@ -3,7 +3,7 @@ import { Link } from "react-router";
 
 export function Footer() {
   return (
-    <footer className="bg-primary-foreground">
+    <footer className="bg-primary-foreground border-t">
       <div className="container flex flex-wrap items-center justify-center px-4 py-8 mx-auto lg:justify-between">
         <ul className="flex items-center space-x-4">
           <li><Link to="/">Home</Link></li>
