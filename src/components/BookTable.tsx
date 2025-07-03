@@ -4,15 +4,21 @@ import { Table, TableHead, TableRow, TableCell, TableBody, TableHeader } from "@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2 } from "lucide-react";
+import { useNavigate } from "react-router";
 
 export function BookTable() {
   const [page, setPage] = useState(1);
   const limit = 10;
+  const navigate = useNavigate();
 
   const { data, isLoading, isError, error, isFetching } = useGetBooksQuery({ page, limit });
 
   const books = data?.data || [];
   const totalPages = data?.totalPages || 1;
+
+  const handleClick = (id: string | undefined) => {
+    navigate(`/books/${id}`);
+  };
 
   return (
     <div className="space-y-4">
@@ -22,14 +28,13 @@ export function BookTable() {
           <span className="text-lg font-medium text-gray-700 dark:text-gray-200">Loading Books...</span>
         </div>
       )}
-      
 
       {isError && (
         <div className="p-4 text-center text-red-500">Error fetching books: {String(error)}</div>
       )}
 
       {!isLoading && !isError && (
-        <>
+          <>
           <div className="shadow">
             <Table>
               <TableHeader className="w-[100px]">
@@ -45,7 +50,20 @@ export function BookTable() {
               </TableHeader>
               <TableBody className="w-[100px]">
                 {books.map((book) => (
-                  <TableRow key={book._id}>
+                  <TableRow
+                    key={book._id}
+                    onClick={(e) => {
+                      // Prevent navigation if clicking on an action button
+                      e.preventDefault();
+                      if (
+                        (e.target as HTMLElement).closest("button")
+                      ) {
+                        return;
+                      }
+                      handleClick(book?._id);
+                    }}
+                    className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  >
                     <TableCell>{book.title}</TableCell>
                     <TableCell>{book.author}</TableCell>
                     <TableCell>
@@ -63,9 +81,35 @@ export function BookTable() {
                       )}
                     </TableCell>
                     <TableCell className="space-x-2">
-                      <Button size="sm" variant="secondary">Edit</Button>
-                      <Button size="sm" variant="destructive">Delete</Button>
-                      <Button size="sm">Borrow</Button>
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={e => {
+                          e.stopPropagation();
+                          // Edit logic here
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={e => {
+                          e.stopPropagation();
+                          // Delete logic here
+                        }}
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        size="sm"
+                        onClick={e => {
+                          e.stopPropagation();
+                          // Borrow logic here
+                        }}
+                      >
+                        Borrow
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, CalendarDays, BookOpen } from "lucide-react";
 import formatDate from "@/services/formateDate";
+import { useNavigate } from "react-router";
 
 export function BookGrid() {
   const [page, setPage] = useState(1);
@@ -25,8 +26,6 @@ export function BookGrid() {
   const books = data?.data || [];
   const totalPages = data?.totalPages || 1;
 
-  // Responsive card and section heights using Tailwind breakpoints
-  // Adjusted for better mobile experience
   const CARD_HEIGHT =
     "h-auto min-h-[260px] sm:min-h-[320px] md:min-h-[400px] lg:min-h-[420px]"; // allow auto height on mobile
   const HEADER_HEIGHT =
@@ -35,6 +34,11 @@ export function BookGrid() {
     "flex-1 min-h-[60px] sm:min-h-[100px] md:min-h-[160px] lg:min-h-[200px]";
   const FOOTER_HEIGHT =
     "min-h-[36px] sm:min-h-[44px] md:min-h-[48px]";
+
+  const navigate = useNavigate();
+  const handleClick = (id: string | undefined) => {
+      navigate(`/books/${id}`);
+  };
 
   return (
     <div className="p-2 sm:p-4 space-y-4">
@@ -57,7 +61,18 @@ export function BookGrid() {
             {books.map((book) => (
               <Card
                 key={book._id}
-                className={`flex flex-col justify-between shadow-lg border border-gray-200 dark:border-gray-700 rounded-xl transition-transform hover:scale-[1.025] bg-white dark:bg-gray-900 ${CARD_HEIGHT}`}
+                className={`cursor-grab flex flex-col justify-between shadow-lg border border-gray-200 dark:border-gray-700 rounded-xl transition-transform hover:scale-[1.025] bg-white dark:bg-gray-900 ${CARD_HEIGHT}`}
+                onClick={
+                  (e) => {
+                    e.preventDefault();
+                    if (
+                      (e.target as HTMLElement).closest("button")
+                    ) {
+                      return;
+                    }
+                    handleClick(book?._id);
+                  }
+                }
               >
                 <CardHeader className={`pb-2 ${HEADER_HEIGHT}`}>
                   <div className="flex items-center gap-2">
@@ -119,13 +134,13 @@ export function BookGrid() {
                   </div>
                 </CardContent>
                 <CardFooter className={`flex flex-wrap justify-end space-x-2 pt-2 ${FOOTER_HEIGHT}`}>
-                  <Button size="sm" variant="secondary" className="w-full sm:w-auto">
+                  <Button size="sm" variant="secondary" className="w-full sm:w-auto cursor-pointer">
                     Edit
                   </Button>
-                  <Button size="sm" variant="destructive" className="w-full sm:w-auto">
+                  <Button size="sm" variant="destructive" className="w-full sm:w-auto cursor-pointer">
                     Delete
                   </Button>
-                  <Button size="sm" className="w-full sm:w-auto">
+                  <Button size="sm" className="w-full sm:w-auto cursor-pointer">
                     Borrow
                   </Button>
                 </CardFooter>
@@ -140,7 +155,7 @@ export function BookGrid() {
               variant="outline"
               disabled={page === 1}
               onClick={() => setPage((p) => p - 1)}
-              className="min-w-[80px]"
+              className="min-w-[80px] cursor-pointer"
             >
               Previous
             </Button>
@@ -153,7 +168,7 @@ export function BookGrid() {
                     size="sm"
                     variant={pageNumber === page ? "default" : "outline"}
                     onClick={() => setPage(pageNumber)}
-                    className="min-w-[36px] px-2"
+                    className="cursor-pointer min-w-[36px] px-2"
                   >
                     {pageNumber}
                   </Button>
@@ -166,7 +181,7 @@ export function BookGrid() {
               variant="outline"
               disabled={page === totalPages}
               onClick={() => setPage((p) => p + 1)}
-              className="min-w-[80px]"
+              className="min-w-[80px] cursor-pointer"
             >
               Next
             </Button>
