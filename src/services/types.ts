@@ -16,13 +16,18 @@ export interface ICreateBookApiResponse {
 export interface IBook {
   _id?: string
   title: string
-  author: string
-  genre: string
-  isbn: string
-  description: string
-  copies: number
-  available: boolean
-  createdAt?: string
-  updatedAt?: string
-  __v?: number
+	author: string;
+	genre: "FICTION" | "NON_FICTION" | "SCIENCE" | "HISTORY" | "BIOGRAPHY" | "FANTASY";
+	isbn: string;
+	description?: string;
+	copies: number;
+	available: boolean;
+	createdAt?: Date;
+	updatedAt?: Date;
+}
+
+export interface ErrorResponse {
+  success: false,
+  message: string,
+  error: string
 }
