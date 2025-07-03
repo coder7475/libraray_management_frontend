@@ -7,8 +7,14 @@ export interface IBookApiReseponse {
   totalCount: number;
 }
 
+export interface ICreateBookApiResponse {
+  sucess: boolean,
+  message: string,
+  data: IBook
+}
+
 export interface IBook {
-  _id: string
+  _id?: string
   title: string
   author: string
   genre: string
@@ -16,7 +22,7 @@ export interface IBook {
   description: string
   copies: number
   available: boolean
-  createdAt: string
-  updatedAt: string
-  __v: number
+  createdAt?: string
+  updatedAt?: string
+  __v?: number
 }
