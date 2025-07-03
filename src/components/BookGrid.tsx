@@ -3,6 +3,7 @@ import { useGetBooksQuery } from "@/services/books";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Loader2 } from "lucide-react";
 
 export function BookGrid() {
   const [page, setPage] = useState(1);
@@ -16,7 +17,7 @@ export function BookGrid() {
   return (
     <div className="p-4 space-y-4">
       {isLoading || isFetching ? (
-        <div className="text-center">Loading books...</div>
+        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
       ) : isError ? (
         <div className="text-center text-red-500">Error fetching books: {String(error)}</div>
       ) : books.length === 0 ? (

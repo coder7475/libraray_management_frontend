@@ -3,6 +3,7 @@ import { useGetBooksQuery } from "@/services/books";
 import { Table, TableHead, TableRow, TableCell, TableBody, TableHeader } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Loader2 } from "lucide-react";
 
 export function BookTable() {
   const [page, setPage] = useState(1);
@@ -16,8 +17,12 @@ export function BookTable() {
   return (
     <div className="space-y-4">
       {(isLoading || isFetching) && (
-        <div className="p-4 text-center">Loading books...</div>
+        <div className="flex flex-row items-center justify-center gap-3 py-6">
+          <Loader2 className="h-6 w-6 animate-spin text-primary" />
+          <span className="text-lg font-medium text-gray-700 dark:text-gray-200">Loading Books...</span>
+        </div>
       )}
+      
 
       {isError && (
         <div className="p-4 text-center text-red-500">Error fetching books: {String(error)}</div>
