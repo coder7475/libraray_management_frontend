@@ -9,5 +9,7 @@ export const createBookSchema = z.object({
   copies: z.number().min(1, "Copies must be at least 1"),
   available: z.boolean(),
 });
+export const updateBookSchema = createBookSchema.partial();
 
 export type CreateBookFormValues = z.infer<typeof createBookSchema>;
+export type UpdateBookFromValues = z.infer<typeof updateBookSchema>;

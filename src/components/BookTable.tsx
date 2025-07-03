@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { useGetBooksQuery } from "@/services/books";
+import { useGetBooksQuery, useUpdateBookMutation } from "@/services/books";
 import { Table, TableHead, TableRow, TableCell, TableBody, TableHeader } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router";
+import type { IBook } from "@/services/types";
+import type { UpdateBookFromValues } from "@/validators/CreateBookSchema";
+import { toast } from "sonner";
+import EditBookModal from "./EditBookModal";
 
 export function BookTable() {
   const [page, setPage] = useState(1);
@@ -18,6 +22,32 @@ export function BookTable() {
 
   const handleClick = (id: string | undefined) => {
     navigate(`/books/${id}`);
+  };
+
+  // Manging the edit modal
+  const [editBook, setEditBook] = useState<IBook | null>(null);
+  const [updateBook, { isLoading: isUpdating }] = useUpdateBookMutation();
+
+  const openEditModal = (book: IBook) => setEditBook(book);
+  const closeEditModal = () => setEditBook(null);
+
+  const handleEditSubmit = async (values: UpdateBookFromValues) => {
+    try {
+      // business logic
+      const copies = Number(values.copies);
+      const available = copies > 0 ? values.available : false;
+
+      await updateBook({
+        id: editBook!._id!,
+        data: { ...values, copies, available },
+      }).unwrap();
+
+      toast("Book updated successfully!" );
+      closeEditModal();
+    } catch (error) {
+      console.error(error);
+      toast("Failed to update book.",);
+    }
   };
 
   return (
@@ -62,7 +92,7 @@ export function BookTable() {
                       }
                       handleClick(book?._id);
                     }}
-                    className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    className="cursor-grab hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                   >
                     <TableCell>{book.title}</TableCell>
                     <TableCell>{book.author}</TableCell>
@@ -82,16 +112,19 @@ export function BookTable() {
                     </TableCell>
                     <TableCell className="space-x-2">
                       <Button
+                        className="cursor-pointer"
                         size="sm"
                         variant="secondary"
                         onClick={e => {
                           e.stopPropagation();
                           // Edit logic here
+                          openEditModal(book);
                         }}
                       >
                         Edit
                       </Button>
                       <Button
+                        className="cursor-pointer"
                         size="sm"
                         variant="destructive"
                         onClick={e => {
@@ -102,6 +135,7 @@ export function BookTable() {
                         Delete
                       </Button>
                       <Button
+                        className="cursor-pointer"
                         size="sm"
                         onClick={e => {
                           e.stopPropagation();
@@ -150,6 +184,14 @@ export function BookTable() {
           </div>
         </>
       )}
+      {/* Edit Modal Form */}
+      <EditBookModal
+        open={!!editBook}
+        onClose={closeEditModal}
+        book={editBook}
+        onSubmit={handleEditSubmit}
+        isLoading={isUpdating}
+      />
     </div>
   );
 }

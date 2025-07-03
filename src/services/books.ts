@@ -23,10 +23,18 @@ export const bookApi = createApi({
         body: newBook,
       }),
       invalidatesTags: ['Books'],
-    })
+    }),
+    updateBook: builder.mutation<IBookReseponse, { id: string; data: Partial<IBook> }>({
+      query: ({ id, data }) => ({
+        url: `/books/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Books"], 
+    }),
   }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetBooksQuery, useGetBookByIdQuery,useCreateBookMutation  } = bookApi
+export const { useGetBooksQuery, useGetBookByIdQuery,useCreateBookMutation, useUpdateBookMutation   } = bookApi
