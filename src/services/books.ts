@@ -62,11 +62,11 @@ export const bookApi = createApi({
         method: "POST",
         body: { book, quantity, dueDate },
       }),
-      invalidatesTags: ["Books"],
+      invalidatesTags: ["Borrows"],
     }),
     getBorrowSummury: builder.query<IBorrows, void>({
       query: () => `borrow`,
-      providesTags: ["Books"],
+      providesTags: ["Borrows"],
     }),
   }),
 });
