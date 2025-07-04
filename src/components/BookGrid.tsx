@@ -7,22 +7,13 @@ import {
 } from "@/services/books";
 import type { IBook } from "@/services/types";
 import type { UpdateBookFromValues } from "@/validators/CreateBookSchema";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Loader2, CalendarDays, BookOpen } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import formatDate from "@/services/formateDate";
 import EditBookModal from "./EditBookModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import BorrowBookModal from "./BorrowBookModal";
+import BookCard from "./BookCard";
 
 export function BookGrid() {
   const [page, setPage] = useState(1);
@@ -108,83 +99,23 @@ export function BookGrid() {
         <>
           <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {books.map((book) => (
-              <Card
+              <BookCard
                 key={book._id}
-                onClick={handleCardClick(book._id)}
-                className="cursor-grab flex flex-col justify-between shadow-lg border rounded-xl transition-transform hover:scale-[1.025]"
-              >
-                <CardHeader className="pb-2">
-                  <div className="flex items-center gap-2">
-                    <BookOpen className="h-5 w-5 text-primary" />
-                    <CardTitle className="text-base font-semibold line-clamp-2">
-                      {book.title}
-                    </CardTitle>
-                  </div>
-                  <CardDescription className="mt-1 text-xs sm:text-sm">
-                    by {book.author}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex-1 flex flex-col space-y-2">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Badge variant="outline" className="text-xs sm:text-sm">
-                      {book.genre}
-                    </Badge>
-                    <div className="flex items-center gap-1 text-xs text-gray-500">
-                      <CalendarDays className="h-4 w-4" />
-                      <span>
-                        {formatDate(
-                          (book.updatedAt || book.createdAt)?.toString()
-                        )}
-                      </span>
-                    </div>
-                  </div>
-                  <p className="text-xs sm:text-sm line-clamp-4 min-h-20">
-                    {book.description}
-                  </p>
-                  <div className="text-xs">
-                    ISBN: <span className="font-mono">{book.isbn}</span>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2 text-xs">
-                    <span>Copies: {book.copies}</span>
-                    {book.available ? (
-                      <Badge variant="outline">Available</Badge>
-                    ) : (
-                      <Badge variant="destructive">Not Available</Badge>
-                    )}
-                  </div>
-                </CardContent>
-                <CardFooter className="flex flex-wrap justify-end space-x-2 pt-2">
-                  <Button
-                    size="sm"
-                    variant="secondary"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openModal(setEditBook)(book);
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openModal(setBookToDelete)(book);
-                    }}
-                  >
-                    Delete
-                  </Button>
-                  <Button
-                    size="sm"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setBorrowModalBook(book);
-                    }}
-                  >
-                    Borrow
-                  </Button>
-                </CardFooter>
-              </Card>
+                book={book}
+                onCardClick={handleCardClick(book._id)}
+                onEditClick={(e) => {
+                  e.stopPropagation();
+                  openModal(setEditBook)(book);
+                }}
+                onDeleteClick={(e) => {
+                  e.stopPropagation();
+                  openModal(setBookToDelete)(book);
+                }}
+                onBorrowClick={(e) => {
+                  e.stopPropagation();
+                  setBorrowModalBook(book);
+                }}
+              />
             ))}
           </div>
 
