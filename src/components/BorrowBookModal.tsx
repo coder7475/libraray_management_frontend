@@ -11,11 +11,11 @@ import { toast } from "sonner";
 export interface Props {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    book: string;
+    book: string | undefined;
     availableCopies: number;
   }
 
-export default function BorrowBookModal({ open, onOpenChange, book, availableCopies }: Props) {
+export default function BorrowBookModal({ open, onOpenChange, book, availableCopies = 0 }: Props) {
   const [quantity, setQuantity] = useState(1);
   const [dueDate, setDueDate] = useState("");
   const [borrowBook, { isLoading }] = useBorrowBookMutation();

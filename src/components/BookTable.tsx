@@ -14,6 +14,7 @@ import type { UpdateBookFromValues } from "@/validators/CreateBookSchema";
 
 import EditBookModal from "./EditBookModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
+import BorrowBookModal from "./BorrowBookModal";
 
 export function BookTable() {
   const [page, setPage] = useState(1);
@@ -54,6 +55,7 @@ export function BookTable() {
       toast("Failed to update book.",);
     }
   };
+  
 
   // Managing Delete Modal
   const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation();
@@ -74,6 +76,12 @@ export function BookTable() {
       closeDeleteModal();
     }
   };
+
+  // Borrow Modal
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentBook, setCurrentBook] = useState<IBook | null>(null);
+  const openModal = (book: IBook) => setCurrentBook(book);
+  const closeModal = () => setCurrentBook(null);
 
   return (
     <div className="space-y-4">
@@ -166,6 +174,8 @@ export function BookTable() {
                         onClick={e => {
                           e.stopPropagation();
                           // Borrow logic here
+                          setModalOpen(true);
+                          openModal(book);
                         }}
                       >
                         Borrow
@@ -225,6 +235,12 @@ export function BookTable() {
         onConfirm={handleDeleteConfirm}
         isLoading={isDeleting}
         bookTitle={bookToDelete?.title || ""}
+      />
+      <BorrowBookModal
+        open={modalOpen}
+        onOpenChange={setModalOpen}
+        book={currentBook?._id}
+        availableCopies={currentBook?.copies ?? 0}
       />
     </div>
   );
