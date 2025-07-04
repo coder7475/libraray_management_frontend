@@ -1,109 +1,164 @@
-# 🧩 React + TypeScript + Vite + Redux + Shadcn UI Template
+# 📚 Library Management Frontend
 
-A modern starter template for building robust React applications with TypeScript, Vite, Redux, Tailwind CSS, and Shadcn UI.
-Includes hot module replacement, opinionated ESLint configuration, and ready-to-deploy setup for Cloudflare.
+A modern library management app built with React, TypeScript, Vite, Redux Toolkit, RTK Query, Tailwind CSS, and Shadcn UI.  
+Includes CRUD for books, borrowing flow, modals, clean UI, type-safe forms, and ready-to-deploy Cloudflare integration.
 
 ---
 
 ## ✨ Features
 
-* ⚡ **Vite** – blazing-fast development and build tooling
-* ⚛️ **React** with **TypeScript** – type-safe and modern UI development
-* 🗃️ **Redux** – scalable state management
-* 🎨 **Tailwind CSS** & **Shadcn UI** – customizable and elegant component styling
-* ☁️ **Cloudflare** – easily deploy to Cloudflare Pages / Workers
-* 🧹 Pre-configured **ESLint** – with recommended, type-aware rules for code quality
+### 📄 **Number of pages (explicit routes):**
+
+| Route             | Purpose                                                         |
+| ----------------- | --------------------------------------------------------------- |
+| `/books`          | View list of all books with actions: view, edit, delete, borrow |
+| `/create-book`    | Form to add a new book                                          |
+| `/books/:id`      | View details of a single book                                   |
+| `/edit-book/:id`  | Edit form for existing book                                     |
+| `/borrow/:bookId` | Form to borrow selected book                                    |
+| `/borrow-summary` | Aggregated summary of borrowed books                            |
+
+✅ **Total pages:** **6 main pages**
 
 ---
 
-## 🚀 Getting Started
+### 🧩 **Components & UI features:**
 
-Clone the repository and install dependencies:
+- **Navbar** – links to All Books, Add Book, Borrow Summary
+- **Footer** – site info / credits
+- **Book List Table / Grid**
+  - Shows Title, Author, Genre, ISBN, Copies, Availability, Actions
+  - Actions: Edit, Delete, Borrow
+- **Forms:**
+  - Add Book form (title, author, genre, ISBN, description, copies, availability)
+  - Edit Book form (pre-filled)
+  - Borrow Book form (quantity, due date)
+- **Dialogs / Modals:**
+  - Confirm delete
+  - Edit book
+  - Borrow book
+- **Borrow Summary Table:**
+  - Book title, ISBN, total quantity borrowed
+- **Toast Notifications**
+- **Responsive design** for desktop, tablet, and mobile
+- **Optimistic UI updates** (bonus)
+- **Type-safe forms** using React Hook Form + Zod
+- **Clean minimalist UI** built with Tailwind CSS & Shadcn UI
 
-```bash
-git clone git@github.com:coder7475/libraray_management_frontend.git
-cd libraray_management_frontend
-pnpm install
+---
+
+### ⚙ **Business logic & behaviors:**
+
+- **Edit / Borrow:**
+  - Quantity cannot exceed available copies
+  - Copies ≤ 0 → mark book unavailable in UI
+- **After create / update / delete:**
+  - Redirect appropriately & refresh list
+- **Borrow Book flow:**
+  - On borrow → redirect to `/borrow-summary`
+- **Borrow summary:**
+  - Uses aggregation API to show total quantity borrowed per book
+
+---
+
+## 🛠 **Tech Stack**
+
+- React + TypeScript
+- Vite
+- Redux Toolkit + RTK Query
+- Tailwind CSS
+- Shadcn UI
+- ESLint & Prettier
+- Cloudflare Pages / Workers (optional)
+
+---
+
+## 🚀 **Getting Started**
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone git@github.com:coder7475/libraray_management_frontend.git
+   cd libraray_management_frontend
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Start the development server:**
+   ```bash
+   pnpm run dev
+   ```
+   The app will be available at [http://localhost:5173](http://localhost:5173) by default.
+
+---
+
+### 🛠️ **Other Useful Commands**
+
+- **Build for production:**
+
+  ```bash
+  pnpm run build
+  ```
+
+- **Preview the production build:**
+
+  ```bash
+  pnpm run preview
+  ```
+
+- **Run linter:**
+
+  ```bash
+  pnpm run lint
+  ```
+
+- **Deploy to Cloudflare Pages:**
+  ```bash
+  pnpm run deploy
+  ```
+
+---
+
+**Note:**  
+Make sure you have [pnpm](https://pnpm.io/) installed globally. If not, install it with:
+
+---
+
+## 📦 **Folder Structure**
+
 ```
-
-Run the development server:
-
-```bash
-pnpm run dev
-```
-
-Build for production:
-
-```bash
-pnpm run build
-```
-
-Preview the production build locally:
-
-```bash
-pnpm run preview
-```
-
-Deploy to Cloudflare (if configured):
-
-```bash
-pnpm run deploy
+src/
+├── App.css
+├── global
+├── hooks
+├── index.css
+├── lib
+├── main.tsx
+├── pages
+├── providers
+├── router
+├── services
+├── validators
+└── vite-env.d.ts
 ```
 
 ---
 
-## 🛠 Tech Stack
+## 🧩 **Summary of deliverables:**
 
-* React 18+
-* TypeScript
-* Vite
-* Redux Toolkit
-* Tailwind CSS
-* Shadcn UI
-* ESLint & Prettier
-* (Optional) Cloudflare Pages / Workers
+- Six fully routed pages
+- Complete CRUD operations, borrowing, and summary features powered by RTK Query
+- Type-safe forms with validation
+- Modal dialogs and comprehensive UI state management
+- Responsive design using Tailwind CSS & ShadCn
+- Toast notifications and optimistic UI updates
 
 ---
 
-## 📦 Folder Structure
-
-```
-├── components.json
-├── eslint.config.js
-├── index.html
-├── package.json
-├── pnpm-lock.yaml
-├── public
-├── README.md
-├── src
-│   ├── App.css
-│   ├── App.tsx
-│   ├── assets
-│   ├── components
-│   ├── global
-│   ├── hooks
-│   ├── index.css
-│   ├── lib
-│   ├── main.tsx
-│   ├── pages
-│   ├── providers
-│   ├── router
-│   ├── services
-│   └── vite-env.d.ts
-├── tsconfig.app.json
-├── tsconfig.json
-├── tsconfig.node.json
-├── tsconfig.worker.json
-├── vite.config.ts
-├── worker
-│   └── index.ts
-├── worker-configuration.d.ts
-└── wrangler.jsonc
-```
-
----
-
-## 📄 License
+## 📄 **License**
 
 This project is licensed under the [MIT License](LICENSE).
-
