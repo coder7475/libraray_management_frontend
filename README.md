@@ -1,7 +1,15 @@
 # 📚 Library Management Frontend
 
+[![Version](https://img.shields.io/badge/version-v1.0.0-blue)](https://github.com/coder7475/libraray_management_frontend/releases/tag/v1.0.0)
+
 A modern library management app built with React, TypeScript, Vite, Redux Toolkit, RTK Query, Tailwind CSS, and Shadcn UI.  
 Includes CRUD for books, borrowing flow, modals, clean UI, type-safe forms, and ready-to-deploy Cloudflare integration.
+
+---
+
+> **Looking for the backend?**  
+> The API server for this project is available at:  
+> [github.com/coder7475/library_management_apis](https://github.com/coder7475/library_management_apis)
 
 ---
 
@@ -129,36 +137,3 @@ Make sure you have [pnpm](https://pnpm.io/) installed globally. If not, install 
 ---
 
 ## 📦 **Folder Structure**
-
-```
-src/
-├── App.css
-├── global
-├── hooks
-├── index.css
-├── lib
-├── main.tsx
-├── pages
-├── providers
-├── router
-├── services
-├── validators
-└── vite-env.d.ts
-```
-
----
-
-## 🧩 **Summary of deliverables:**
-
-- Six fully routed pages
-- Complete CRUD operations, borrowing, and summary features powered by RTK Query
-- Type-safe forms with validation
-- Modal dialogs and comprehensive UI state management
-- Responsive design using Tailwind CSS & ShadCn
-- Toast notifications and optimistic UI updates
-
----
-
-## 📄 **License**
-
-This project is licensed under the [MIT License](LICENSE).
