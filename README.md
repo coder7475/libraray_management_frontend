@@ -1,6 +1,4 @@
-# 📚 Library Management Frontend
-
-[![Version](https://img.shields.io/badge/version-v1.0.0-blue)](https://github.com/coder7475/libraray_management_frontend/releases/tag/v1.0.0)
+# 📚 Library Management Frontend [![Version](https://img.shields.io/badge/version-v1.0.0-blue)](https://github.com/coder7475/libraray_management_frontend/releases/tag/v1.0.0)
 
 A modern library management app built with React, TypeScript, Vite, Redux Toolkit, RTK Query, Tailwind CSS, and Shadcn UI.  
 Includes CRUD for books, borrowing flow, modals, clean UI, type-safe forms, and ready-to-deploy Cloudflare integration.
