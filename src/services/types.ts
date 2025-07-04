@@ -48,14 +48,30 @@ export interface ErrorResponse {
 export interface IBorrowResponse {
   success: boolean
   message: string
-  data: Data
+  data: Borrow
 }
 
-export interface Data {
+export interface Borrow {
   _id: string
   book: string
   quantity: number
   dueDate: string
   createdAt: string
   updatedAt: string
+}
+
+export interface IBorrows {
+  success: boolean
+  message: string
+  data: BorrowRecord[]
+}
+
+export interface BorrowRecord {
+  book: Book
+  totalQuantity: number
+}
+
+export interface Book {
+  title: string
+  isbn: string
 }

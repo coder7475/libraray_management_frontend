@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { IBook, IBookApiReseponse, IBookResponse, IBorrowResponse, ICreateBookApiResponse, IDeleteBook } from './types'
+import type { IBook, IBookApiReseponse, IBookResponse, IBorrowResponse, IBorrows, ICreateBookApiResponse, IDeleteBook } from './types'
 
 export const bookApi = createApi({
   reducerPath: 'bookApi',
@@ -44,7 +44,11 @@ export const bookApi = createApi({
         body: { book, quantity, dueDate }
       }),
       invalidatesTags: ['Books', 'Borrows']
-    })
+    }),
+    getBorrowSummury: builder.query<IBorrows, void>({
+      query: () => `borrow`,
+      providesTags: ['Borrows']
+    }),
   })  
 })
 
@@ -54,5 +58,6 @@ export const {
   useCreateBookMutation, 
   useUpdateBookMutation, 
   useDeleteBookMutation, 
-  useBorrowBookMutation  
+  useBorrowBookMutation,
+  useGetBorrowSummuryQuery
 } = bookApi;

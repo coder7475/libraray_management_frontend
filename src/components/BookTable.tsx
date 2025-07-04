@@ -81,7 +81,7 @@ export function BookTable() {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentBook, setCurrentBook] = useState<IBook | null>(null);
   const openModal = (book: IBook) => setCurrentBook(book);
-  const closeModal = () => setCurrentBook(null);
+  // const closeModal = () => setCurrentBook(null);
 
   return (
     <div className="space-y-4">
