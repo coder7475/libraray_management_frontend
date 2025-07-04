@@ -7,7 +7,7 @@ export interface IBookApiReseponse {
   totalCount: number;
 }
 
-export interface IBookReseponse {
+export interface IBookResponse {
   success: boolean
   message: string
   data: IBook
@@ -42,4 +42,20 @@ export interface ErrorResponse {
   success: false,
   message: string,
   error: string
+}
+
+
+export interface IBorrowResponse {
+  success: boolean
+  message: string
+  data: Data
+}
+
+export interface Data {
+  _id: string
+  book: string
+  quantity: number
+  dueDate: string
+  createdAt: string
+  updatedAt: string
 }
