@@ -2,6 +2,7 @@ import App from "@/App";
 import About from "@/pages/About";
 import Books from "@/pages/Books";
 import BookView from "@/pages/BookView";
+import BorrowSummary from "@/pages/BorrowSummury";
 import ContactUs from "@/pages/ContactUs";
 import CreateBookPage from "@/pages/CreateBook";
 import Home from "@/pages/Home";
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
         {
           path: "terms",
           element: <Terms />
+        },
+        {
+          path: "borrow-summary",
+          element: <BorrowSummary />,
         },
         {
           path: "*",
