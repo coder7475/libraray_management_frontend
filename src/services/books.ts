@@ -64,7 +64,7 @@ export const bookApi = createApi({
       }),
       invalidatesTags: ["Borrows"],
     }),
-    getBorrowSummury: builder.query<IBorrows, void>({
+    getBorrowSummary: builder.query<IBorrows, void>({
       query: () => `borrow`,
       providesTags: ["Borrows"],
     }),
@@ -78,5 +78,5 @@ export const {
   useUpdateBookMutation,
   useDeleteBookMutation,
   useBorrowBookMutation,
-  useGetBorrowSummuryQuery,
+  useGetBorrowSummaryQuery,
 } = bookApi;
