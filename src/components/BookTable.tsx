@@ -1,9 +1,7 @@
 import { useState } from "react";
-
 import { Table, TableHead, TableRow, TableCell, TableBody, TableHeader } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -22,66 +20,64 @@ export function BookTable() {
   const navigate = useNavigate();
 
   const { data, isLoading, isError, error, isFetching } = useGetBooksQuery({ page, limit });
-
   const books = data?.data || [];
   const totalPages = data?.totalPages || 1;
 
-  const handleClick = (id: string | undefined) => {
-    navigate(`/books/${id}`);
-  };
-
-  // Manging the edit modal
+  // Edit Modal State
   const [editBook, setEditBook] = useState<IBook | null>(null);
   const [updateBook, { isLoading: isUpdating }] = useUpdateBookMutation();
 
-  const openEditModal = (book: IBook) => setEditBook(book);
-  const closeEditModal = () => setEditBook(null);
+  // Delete Modal State
+  const [bookToDelete, setBookToDelete] = useState<IBook | null>(null);
+  const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation();
+
+  // Borrow Modal State
+  const [borrowModalBook, setBorrowModalBook] = useState<IBook | null>(null);
+  const isBorrowModalOpen = !!borrowModalBook;
+
+  const openModal = (setter: (book: IBook) => void) => (book: IBook) => setter(book);
+  const closeModal = (setter: (book: null) => void) => () => setter(null);
 
   const handleEditSubmit = async (values: UpdateBookFromValues) => {
+    if (!editBook?._id) return;
     try {
-      // business logic
       const copies = Number(values.copies);
       const available = copies > 0 ? values.available : false;
 
       await updateBook({
-        id: editBook!._id!,
+        id: editBook._id,
         data: { ...values, copies, available },
       }).unwrap();
 
-      toast("Book updated successfully!" );
-      closeEditModal();
+      toast("Book updated successfully!");
+      setEditBook(null);
     } catch (error) {
       console.error(error);
-      toast("Failed to update book.",);
+      toast("Failed to update book.");
     }
   };
-  
-
-  // Managing Delete Modal
-  const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation();
-  const [bookToDelete, setBookToDelete] = useState<IBook | null>(null);
-
-  const openDeleteModal = (book: IBook) => setBookToDelete(book);
-  const closeDeleteModal = () => setBookToDelete(null);
 
   const handleDeleteConfirm = async () => {
-    if (!bookToDelete) return;
+    if (!bookToDelete?._id) return;
     try {
-      await deleteBook({ id: bookToDelete?._id}).unwrap();
-      toast("Book deleted successfully!" );
-      closeDeleteModal();
+      await deleteBook({ id: bookToDelete._id }).unwrap();
+      toast("Book deleted successfully!");
+      setBookToDelete(null);
     } catch (error) {
       console.error(error);
-      toast("Failed to delete book. Try Again");
-      closeDeleteModal();
+      toast("Failed to delete book. Try again.");
     }
   };
 
-  // Borrow Modal
-  const [modalOpen, setModalOpen] = useState(false);
-  const [currentBook, setCurrentBook] = useState<IBook | null>(null);
-  const openModal = (book: IBook) => setCurrentBook(book);
-  // const closeModal = () => setCurrentBook(null);
+  const handleRowClick = (id: string | undefined) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!(e.target as HTMLElement).closest("button")) {
+      navigate(`/books/${id}`);
+    }
+  };
+
+  const renderBadge = (text: string, variant: "outline" | "destructive" = "outline") =>
+    <Badge variant={variant}>{text}</Badge>;
 
   return (
     <div className="space-y-4">
@@ -97,89 +93,37 @@ export function BookTable() {
       )}
 
       {!isLoading && !isError && (
-          <>
+        <>
           <div className="shadow">
             <Table>
-              <TableHeader className="w-[100px]">
+              <TableHeader>
                 <TableRow>
-                  <TableHead className="font-semibold">Title</TableHead>
-                  <TableHead className="font-semibold">Author</TableHead>
-                  <TableHead className="font-semibold">Genre</TableHead>
-                  <TableHead className="font-semibold">ISBN</TableHead>
-                  <TableHead className="font-semibold">Copies</TableHead>
-                  <TableHead className="font-semibold">Availability</TableHead>
-                  <TableHead className="font-semibold">Actions</TableHead>
+                  {["Title", "Author", "Genre", "ISBN", "Copies", "Availability", "Actions"].map((header) => (
+                    <TableHead key={header} className="font-semibold">{header}</TableHead>
+                  ))}
                 </TableRow>
               </TableHeader>
-              <TableBody className="w-[100px]">
+              <TableBody>
                 {books.map((book) => (
                   <TableRow
                     key={book._id}
-                    onClick={(e) => {
-                      // Prevent navigation if clicking on an action button
-                      e.preventDefault();
-                      if (
-                        (e.target as HTMLElement).closest("button")
-                      ) {
-                        return;
-                      }
-                      handleClick(book?._id);
-                    }}
+                    onClick={handleRowClick(book._id)}
                     className="cursor-grab hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                   >
                     <TableCell>{book.title}</TableCell>
                     <TableCell>{book.author}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{book.genre}</Badge>
-                    </TableCell>
-                    <TableCell>
-                      <span className="font-mono text-xs">{book.isbn}</span>
-                    </TableCell>
+                    <TableCell>{renderBadge(book.genre)}</TableCell>
+                    <TableCell><span className="font-mono text-xs">{book.isbn}</span></TableCell>
                     <TableCell>{book.copies}</TableCell>
                     <TableCell>
-                      {book.available ? (
-                        <Badge variant="outline">Available</Badge>
-                      ) : (
-                        <Badge variant="destructive">Not Available</Badge>
-                      )}
+                      {book.available
+                        ? renderBadge("Available")
+                        : renderBadge("Not Available", "destructive")}
                     </TableCell>
                     <TableCell className="space-x-2">
-                      <Button
-                        className="cursor-pointer"
-                        size="sm"
-                        variant="secondary"
-                        onClick={e => {
-                          e.stopPropagation();
-                          // Edit logic here
-                          openEditModal(book);
-                        }}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        className="cursor-pointer"
-                        size="sm"
-                        variant="destructive"
-                        onClick={e => {
-                          e.stopPropagation();
-                          // Delete logic here
-                          openDeleteModal(book);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                      <Button
-                        className="cursor-pointer"
-                        size="sm"
-                        onClick={e => {
-                          e.stopPropagation();
-                          // Borrow logic here
-                          setModalOpen(true);
-                          openModal(book);
-                        }}
-                      >
-                        Borrow
-                      </Button>
+                      <Button size="sm" variant="secondary" onClick={e => { e.stopPropagation(); openModal(setEditBook)(book); }}>Edit</Button>
+                      <Button size="sm" variant="destructive" onClick={e => { e.stopPropagation(); openModal(setBookToDelete)(book); }}>Delete</Button>
+                      <Button size="sm" onClick={e => { e.stopPropagation(); setBorrowModalBook(book); }}>Borrow</Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -187,60 +131,44 @@ export function BookTable() {
             </Table>
           </div>
 
-          {/* Pagination controls */}
+          {/* Pagination */}
           <div className="flex justify-center flex-wrap gap-2 pt-4">
-            <Button
-              size="sm"
-              variant="outline"
-              disabled={page === 1}
-              onClick={() => setPage((p) => p - 1)}
-            >
-              Previous
-            </Button>
-
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+            <Button size="sm" variant="outline" disabled={page === 1} onClick={() => setPage(p => p - 1)}>Previous</Button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
               <Button
-                key={pageNumber}
+                key={num}
                 size="sm"
-                variant={pageNumber === page ? "default" : "outline"}
-                onClick={() => setPage(pageNumber)}
+                variant={num === page ? "default" : "outline"}
+                onClick={() => setPage(num)}
               >
-                {pageNumber}
+                {num}
               </Button>
             ))}
-
-            <Button
-              size="sm"
-              variant="outline"
-              disabled={page === totalPages}
-              onClick={() => setPage((p) => p + 1)}
-            >
-              Next
-            </Button>
+            <Button size="sm" variant="outline" disabled={page === totalPages} onClick={() => setPage(p => p + 1)}>Next</Button>
           </div>
         </>
       )}
-      {/* Edit Modal Form */}
+
+      {/* Modals */}
       <EditBookModal
         open={!!editBook}
-        onClose={closeEditModal}
+        onClose={closeModal(setEditBook)}
         book={editBook}
         onSubmit={handleEditSubmit}
         isLoading={isUpdating}
       />
-      {/* Delete Modal  */}
-       <DeleteConfirmModal
+      <DeleteConfirmModal
         open={!!bookToDelete}
-        onClose={closeDeleteModal}
+        onClose={closeModal(setBookToDelete)}
         onConfirm={handleDeleteConfirm}
         isLoading={isDeleting}
         bookTitle={bookToDelete?.title || ""}
       />
       <BorrowBookModal
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-        book={currentBook?._id}
-        availableCopies={currentBook?.copies ?? 0}
+        open={isBorrowModalOpen}
+        onOpenChange={(open) => !open && setBorrowModalBook(null)}
+        book={borrowModalBook?._id}
+        availableCopies={borrowModalBook?.copies ?? 0}
       />
     </div>
   );
