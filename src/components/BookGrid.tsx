@@ -116,7 +116,7 @@ export function BookGrid() {
                 <CardHeader className="pb-2">
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-5 w-5 text-primary" />
-                    <CardTitle className="text-base md:text-lg font-semibold line-clamp-2">
+                    <CardTitle className="text-base font-semibold line-clamp-2">
                       {book.title}
                     </CardTitle>
                   </div>
@@ -138,7 +138,7 @@ export function BookGrid() {
                       </span>
                     </div>
                   </div>
-                  <p className="text-xs sm:text-sm line-clamp-4">
+                  <p className="text-xs sm:text-sm line-clamp-4 min-h-20">
                     {book.description}
                   </p>
                   <div className="text-xs">
