@@ -1,12 +1,23 @@
 import { useState } from "react";
-import { Table, TableHead, TableRow, TableCell, TableBody, TableHeader } from "@/components/ui/table";
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TableHeader,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
-import { useDeleteBookMutation, useGetBooksQuery, useUpdateBookMutation } from "@/services/books";
+import {
+  useDeleteBookMutation,
+  useGetBooksQuery,
+  useUpdateBookMutation,
+} from "@/services/books";
 import type { IBook } from "@/services/types";
 import type { UpdateBookFromValues } from "@/validators/CreateBookSchema";
 
@@ -19,7 +30,10 @@ export function BookTable() {
   const limit = 10;
   const navigate = useNavigate();
 
-  const { data, isLoading, isError, error, isFetching } = useGetBooksQuery({ page, limit });
+  const { data, isLoading, isError, error, isFetching } = useGetBooksQuery({
+    page,
+    limit,
+  });
   const books = data?.data || [];
   const totalPages = data?.totalPages || 1;
 
@@ -35,7 +49,8 @@ export function BookTable() {
   const [borrowModalBook, setBorrowModalBook] = useState<IBook | null>(null);
   const isBorrowModalOpen = !!borrowModalBook;
 
-  const openModal = (setter: (book: IBook) => void) => (book: IBook) => setter(book);
+  const openModal = (setter: (book: IBook) => void) => (book: IBook) =>
+    setter(book);
   const closeModal = (setter: (book: null) => void) => () => setter(null);
 
   const handleEditSubmit = async (values: UpdateBookFromValues) => {
@@ -76,20 +91,26 @@ export function BookTable() {
     }
   };
 
-  const renderBadge = (text: string, variant: "outline" | "destructive" = "outline") =>
-    <Badge variant={variant}>{text}</Badge>;
+  const renderBadge = (
+    text: string,
+    variant: "outline" | "destructive" = "outline"
+  ) => <Badge variant={variant}>{text}</Badge>;
 
   return (
     <div className="space-y-4">
       {(isLoading || isFetching) && (
         <div className="flex flex-row items-center justify-center gap-3 py-6">
           <Loader2 className="h-6 w-6 animate-spin text-primary" />
-          <span className="text-lg font-medium text-gray-700 dark:text-gray-200">Loading Books...</span>
+          <span className="text-lg font-medium text-gray-700 dark:text-gray-200">
+            Loading Books...
+          </span>
         </div>
       )}
 
       {isError && (
-        <div className="p-4 text-center text-red-500">Error fetching books: {String(error)}</div>
+        <div className="p-4 text-center text-red-500">
+          Error fetching books: {String(error)}
+        </div>
       )}
 
       {!isLoading && !isError && (
@@ -98,8 +119,18 @@ export function BookTable() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  {["Title", "Author", "Genre", "ISBN", "Copies", "Availability", "Actions"].map((header) => (
-                    <TableHead key={header} className="font-semibold">{header}</TableHead>
+                  {[
+                    "Title",
+                    "Author",
+                    "Genre",
+                    "ISBN",
+                    "Copies",
+                    "Availability",
+                    "Actions",
+                  ].map((header) => (
+                    <TableHead key={header} className="font-semibold">
+                      {header}
+                    </TableHead>
                   ))}
                 </TableRow>
               </TableHeader>
@@ -113,7 +144,9 @@ export function BookTable() {
                     <TableCell>{book.title}</TableCell>
                     <TableCell>{book.author}</TableCell>
                     <TableCell>{renderBadge(book.genre)}</TableCell>
-                    <TableCell><span className="font-mono text-xs">{book.isbn}</span></TableCell>
+                    <TableCell>
+                      <span className="font-mono text-xs">{book.isbn}</span>
+                    </TableCell>
                     <TableCell>{book.copies}</TableCell>
                     <TableCell>
                       {book.available
@@ -121,9 +154,35 @@ export function BookTable() {
                         : renderBadge("Not Available", "destructive")}
                     </TableCell>
                     <TableCell className="space-x-2">
-                      <Button size="sm" variant="secondary" onClick={e => { e.stopPropagation(); openModal(setEditBook)(book); }}>Edit</Button>
-                      <Button size="sm" variant="destructive" onClick={e => { e.stopPropagation(); openModal(setBookToDelete)(book); }}>Delete</Button>
-                      <Button size="sm" onClick={e => { e.stopPropagation(); setBorrowModalBook(book); }}>Borrow</Button>
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openModal(setEditBook)(book);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openModal(setBookToDelete)(book);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setBorrowModalBook(book);
+                        }}
+                      >
+                        Borrow
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -133,7 +192,14 @@ export function BookTable() {
 
           {/* Pagination */}
           <div className="flex justify-center flex-wrap gap-2 pt-4">
-            <Button size="sm" variant="outline" disabled={page === 1} onClick={() => setPage(p => p - 1)}>Previous</Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={page === 1}
+              onClick={() => setPage((p) => p - 1)}
+            >
+              Previous
+            </Button>
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
               <Button
                 key={num}
@@ -144,7 +210,14 @@ export function BookTable() {
                 {num}
               </Button>
             ))}
-            <Button size="sm" variant="outline" disabled={page === totalPages} onClick={() => setPage(p => p + 1)}>Next</Button>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={page === totalPages}
+              onClick={() => setPage((p) => p + 1)}
+            >
+              Next
+            </Button>
           </div>
         </>
       )}
