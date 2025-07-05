@@ -24,10 +24,14 @@ import type { UpdateBookFromValues } from "@/validators/CreateBookSchema";
 import EditBookModal from "./EditBookModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import BorrowBookModal from "./BorrowBookModal";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { setPage } from "@/global/slices/booksSlice";
+import LimitSelector from "./LimitSelector";
 
 export function BookTable() {
-  const [page, setPage] = useState(1);
-  const limit = 12;
+  const dispatch = useAppDispatch();
+  const { page, limit } = useAppSelector((state) => state.booksUI);
+
   const navigate = useNavigate();
 
   const { data, isLoading, isError, error, isFetching } = useGetBooksQuery({
@@ -199,7 +203,7 @@ export function BookTable() {
               size="sm"
               variant="outline"
               disabled={page === 1}
-              onClick={() => setPage((p) => p - 1)}
+              onClick={() => dispatch(setPage(page - 1))}
             >
               Previous
             </Button>
@@ -208,7 +212,7 @@ export function BookTable() {
                 key={num}
                 size="sm"
                 variant={num === page ? "default" : "outline"}
-                onClick={() => setPage(num)}
+                onClick={() => dispatch(setPage(num))}
               >
                 {num}
               </Button>
@@ -217,11 +221,12 @@ export function BookTable() {
               size="sm"
               variant="outline"
               disabled={page === totalPages}
-              onClick={() => setPage((p) => p + 1)}
+              onClick={() => dispatch(setPage(page + 1))}
             >
               Next
             </Button>
           </div>
+          <LimitSelector />
         </>
       )}
 

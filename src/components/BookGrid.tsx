@@ -14,10 +14,14 @@ import EditBookModal from "./EditBookModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import BorrowBookModal from "./BorrowBookModal";
 import BookCard from "./BookCard";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { setPage } from "@/global/slices/booksSlice";
+import LimitSelector from "./LimitSelector";
 
 export function BookGrid() {
-  const [page, setPage] = useState(1);
-  const limit = 12;
+  const dispatch = useAppDispatch();
+  const { page, limit } = useAppSelector((state) => state.booksUI);
+
   const navigate = useNavigate();
 
   const { data, isLoading, isError, error, isFetching } = useGetBooksQuery({
@@ -82,6 +86,10 @@ export function BookGrid() {
 
   return (
     <div className="p-2 sm:p-4 space-y-4">
+      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center text-primary tracking-tight drop-shadow">
+        Latest Books
+      </h2>
+
       {isLoading || isFetching ? (
         <div className="flex items-center justify-center gap-3 py-6">
           <Loader2 className="h-6 w-6 animate-spin text-primary" />
@@ -125,7 +133,7 @@ export function BookGrid() {
               size="sm"
               variant="outline"
               disabled={page === 1}
-              onClick={() => setPage((p) => p - 1)}
+              onClick={() => dispatch(setPage(page - 1))}
             >
               Previous
             </Button>
@@ -134,7 +142,7 @@ export function BookGrid() {
                 key={num}
                 size="sm"
                 variant={num === page ? "default" : "outline"}
-                onClick={() => setPage(num)}
+                onClick={() => dispatch(setPage(num))}
               >
                 {num}
               </Button>
@@ -143,10 +151,12 @@ export function BookGrid() {
               size="sm"
               variant="outline"
               disabled={page === totalPages}
-              onClick={() => setPage((p) => p + 1)}
+              onClick={() => dispatch(setPage(page + 1))}
             >
               Next
             </Button>
+
+            <LimitSelector />
           </div>
         </>
       )}
