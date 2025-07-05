@@ -7,23 +7,22 @@ import {
 } from "@/services/books";
 import type { IBook } from "@/services/types";
 import type { UpdateBookFromValues } from "@/validators/CreateBookSchema";
-import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import EditBookModal from "./EditBookModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import BorrowBookModal from "./BorrowBookModal";
 import BookCard from "./BookCard";
-import { useAppDispatch, useAppSelector } from "@/hooks";
-import { setPage } from "@/global/slices/booksSlice";
-import LimitSelector from "./LimitSelector";
+import { useAppSelector } from "@/hooks";
+import Pagination from "./Pagination";
 
 export function BookGrid() {
-  const dispatch = useAppDispatch();
+  // pagination
   const { page, limit } = useAppSelector((state) => state.booksUI);
-
+  // navigation
   const navigate = useNavigate();
 
+  // Query
   const { data, isLoading, isError, error, isFetching } = useGetBooksQuery({
     page,
     limit,
@@ -128,36 +127,7 @@ export function BookGrid() {
           </div>
 
           {/* Pagination */}
-          <div className="flex justify-center flex-wrap gap-2 pt-4">
-            <Button
-              size="sm"
-              variant="outline"
-              disabled={page === 1}
-              onClick={() => dispatch(setPage(page - 1))}
-            >
-              Previous
-            </Button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
-              <Button
-                key={num}
-                size="sm"
-                variant={num === page ? "default" : "outline"}
-                onClick={() => dispatch(setPage(num))}
-              >
-                {num}
-              </Button>
-            ))}
-            <Button
-              size="sm"
-              variant="outline"
-              disabled={page === totalPages}
-              onClick={() => dispatch(setPage(page + 1))}
-            >
-              Next
-            </Button>
-
-            <LimitSelector />
-          </div>
+          <Pagination totalPages={totalPages} />
         </>
       )}
 
