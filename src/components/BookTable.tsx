@@ -155,6 +155,7 @@ export function BookTable() {
                     </TableCell>
                     <TableCell className="space-x-2">
                       <Button
+                        className="cursor-pointer"
                         size="sm"
                         variant="secondary"
                         onClick={(e) => {
@@ -165,6 +166,7 @@ export function BookTable() {
                         Edit
                       </Button>
                       <Button
+                        className="cursor-pointer"
                         size="sm"
                         variant="destructive"
                         onClick={(e) => {
@@ -175,6 +177,7 @@ export function BookTable() {
                         Delete
                       </Button>
                       <Button
+                        className="cursor-pointer"
                         size="sm"
                         onClick={(e) => {
                           e.stopPropagation();

@@ -73,13 +73,23 @@ export default function BookCard({
         </div>
       </CardContent>
       <CardFooter className="flex flex-wrap justify-end space-x-2 pt-2">
-        <Button size="sm" variant="secondary" onClick={onEditClick}>
+        <Button
+          className="cursor-pointer"
+          size="sm"
+          variant="secondary"
+          onClick={onEditClick}
+        >
           Edit
         </Button>
-        <Button size="sm" variant="destructive" onClick={onDeleteClick}>
+        <Button
+          className="cursor-pointer"
+          size="sm"
+          variant="destructive"
+          onClick={onDeleteClick}
+        >
           Delete
         </Button>
-        <Button size="sm" onClick={onBorrowClick}>
+        <Button className="cursor-pointer" size="sm" onClick={onBorrowClick}>
           Borrow
         </Button>
       </CardFooter>
