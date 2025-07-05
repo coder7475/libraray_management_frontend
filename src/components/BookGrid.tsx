@@ -7,13 +7,13 @@ import {
 } from "@/services/books";
 import type { IBook } from "@/services/types";
 import type { UpdateBookFromValues } from "@/validators/CreateBookSchema";
-import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import EditBookModal from "./EditBookModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import BorrowBookModal from "./BorrowBookModal";
 import BookCard from "./BookCard";
 import GenreSelector from "./GenreSelector";
+import { Skeleton } from "./ui/skeleton";
 
 export function BookGrid() {
   // navigation
@@ -90,18 +90,29 @@ export function BookGrid() {
   };
 
   return (
-    <div className="p-2 sm:p-4 space-y-10 bg-white dark:bg-gray-900 transition-colors duration-300">
+    <div className="p-2 sm:p-4 space-y-10 bg-white dark:bg-gray-900 transition-colors duration-300 rounded-2xl">
       {/* Book Grid Section */}
       <section>
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center text-primary dark:text-primary-300 tracking-tight drop-shadow">
           Latest Books
         </h2>
         {isLoading || isFetching ? (
-          <div className="flex items-center justify-center gap-3 py-6">
-            <Loader2 className="h-6 w-6 animate-spin text-primary dark:text-primary-300" />
-            <span className="text-base sm:text-lg font-medium text-gray-700 dark:text-gray-200">
-              Loading Books...
-            </span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {Array.from({ length: 4 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="rounded-2xl bg-gray-100 dark:bg-gray-800 p-4 flex flex-col gap-4 shadow"
+              >
+                <Skeleton className="h-40 rounded-lg mb-2" />
+                <Skeleton className="h-5 w-3/4 rounded" />
+                <Skeleton className="h-4 w-1/2 rounded" />
+                <div className="flex gap-2 mt-2">
+                  <Skeleton className="h-8 w-8 rounded" />
+                  <Skeleton className="h-8 w-8 rounded" />
+                  <Skeleton className="h-8 w-8 rounded" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : isError ? (
           <div className="text-center text-red-500 dark:text-red-400">
@@ -149,6 +160,7 @@ export function BookGrid() {
 
       {/* Genre Selection Section */}
       <GenreSelector />
+
       {/* Modals */}
       <EditBookModal
         open={!!editBook}
