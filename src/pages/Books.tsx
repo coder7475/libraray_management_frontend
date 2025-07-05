@@ -23,7 +23,6 @@ const Books = () => {
       <footer className="w-full mt-auto">
         <Footer />
       </footer>
-
     </div>
   );
 };

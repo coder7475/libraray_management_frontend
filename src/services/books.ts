@@ -20,7 +20,7 @@ export const bookApi = createApi({
       IBookApiReseponse,
       { page: number; limit?: number }
     >({
-      query: ({ page, limit = 8 }) => `books?page=${page}&limit=${limit}`,
+      query: ({ page, limit = 12 }) => `books?page=${page}&limit=${limit}`,
       providesTags: ["Books"],
     }),
     getBookById: builder.query<IBookResponse, { _id: string }>({

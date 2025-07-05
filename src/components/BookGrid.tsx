@@ -17,7 +17,7 @@ import BookCard from "./BookCard";
 
 export function BookGrid() {
   const [page, setPage] = useState(1);
-  const limit = 8;
+  const limit = 12;
   const navigate = useNavigate();
 
   const { data, isLoading, isError, error, isFetching } = useGetBooksQuery({
