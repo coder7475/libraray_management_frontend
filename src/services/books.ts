@@ -18,9 +18,25 @@ export const bookApi = createApi({
   endpoints: (builder) => ({
     getBooks: builder.query<
       IBookApiReseponse,
-      { page: number; limit?: number }
+      {
+        page: number;
+        limit?: number;
+        filter?: string;
+        sortBy?: string;
+        sort?: "asc" | "desc";
+      }
     >({
-      query: ({ page, limit = 12 }) => `books?page=${page}&limit=${limit}`,
+      query: ({ page, limit = 12, filter, sortBy, sort }) => {
+        const params = new URLSearchParams();
+
+        params.append("page", String(page));
+        params.append("limit", String(limit));
+        if (filter) params.append("filter", filter);
+        if (sortBy) params.append("sortBy", sortBy);
+        if (sort) params.append("sort", sort);
+
+        return `books?${params.toString()}`;
+      },
       providesTags: ["Books"],
     }),
     getBookById: builder.query<IBookResponse, { _id: string }>({

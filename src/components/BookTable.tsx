@@ -24,17 +24,46 @@ import type { UpdateBookFromValues } from "@/validators/CreateBookSchema";
 import EditBookModal from "./EditBookModal";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import BorrowBookModal from "./BorrowBookModal";
-import { useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import Pagination from "./Pagination";
 
+// Redux actions for filter/sort
+import { setFilter, setSortBy, setSort } from "@/global/slices/booksSlice";
+
+const GENRES = [
+  "FICTION",
+  "NON_FICTION",
+  "SCIENCE",
+  "HISTORY",
+  "BIOGRAPHY",
+  "FANTASY",
+  "OTHER",
+];
+
+const SORTABLE_COLUMNS = [
+  { key: "title", label: "Title" },
+  { key: "author", label: "Author" },
+  { key: "genre", label: "Genre" },
+  { key: "isbn", label: "ISBN" },
+  { key: "copies", label: "Copies" },
+  { key: "available", label: "Availability" },
+  { key: "createdAt", label: "Created At" },
+];
+
 export function BookTable() {
-  const { page, limit } = useAppSelector((state) => state.booksUI);
+  const { page, limit, filter, sortBy, sort } = useAppSelector(
+    (state) => state.booksUI
+  );
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
   const { data, isLoading, isError, error, isFetching } = useGetBooksQuery({
     page,
     limit,
+    filter,
+    sortBy,
+    sort,
   });
   const books = data?.data || [];
   const totalPages = data?.totalPages || 1;
@@ -98,8 +127,150 @@ export function BookTable() {
     variant: "outline" | "destructive" = "outline"
   ) => <Badge variant={variant}>{text}</Badge>;
 
+  // --- Filter and Sort UI Handlers ---
+  const handleGenreFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setFilter(e.target.value || undefined));
+  };
+
+  const handleSortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setSortBy(e.target.value));
+  };
+
+  const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setSort(e.target.value as "asc" | "desc"));
+  };
+
+  // --- Table Header with Sort Buttons ---
+  const renderTableHead = () => (
+    <TableRow>
+      {[
+        { key: "title", label: "Title" },
+        { key: "author", label: "Author" },
+        { key: "genre", label: "Genre" },
+        { key: "isbn", label: "ISBN" },
+        { key: "copies", label: "Copies" },
+        { key: "available", label: "Availability" },
+        { key: "actions", label: "Actions" },
+      ].map((header) => {
+        if (header.key === "actions") {
+          return (
+            <TableHead key={header.key} className="font-semibold">
+              {header.label}
+            </TableHead>
+          );
+        }
+        // Only allow sort for certain columns
+        const isSortable = [
+          "title",
+          "author",
+          "genre",
+          "isbn",
+          "copies",
+          "available",
+        ].includes(header.key);
+        return (
+          <TableHead
+            key={header.key}
+            className="font-semibold select-none"
+            style={{ cursor: isSortable ? "pointer" : undefined }}
+            onClick={
+              isSortable
+                ? () => {
+                    if (sortBy === header.key) {
+                      // Toggle sort order
+                      dispatch(setSort(sort === "asc" ? "desc" : "asc"));
+                    } else {
+                      dispatch(setSortBy(header.key));
+                      dispatch(setSort("asc"));
+                    }
+                  }
+                : undefined
+            }
+          >
+            <span className="flex items-center gap-1">
+              {header.label}
+              {isSortable && sortBy === header.key && (
+                <span>
+                  {sort === "asc" ? (
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 20 20"
+                      className="inline"
+                      fill="currentColor"
+                    >
+                      <path d="M10 6l-4 4h8l-4-4z" />
+                    </svg>
+                  ) : (
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 20 20"
+                      className="inline"
+                      fill="currentColor"
+                    >
+                      <path d="M10 14l4-4H6l4 4z" />
+                    </svg>
+                  )}
+                </span>
+              )}
+            </span>
+          </TableHead>
+        );
+      })}
+    </TableRow>
+  );
+
   return (
     <div className="space-y-4">
+      {/* Filter and Sort Controls */}
+      <div className="flex flex-col sm:flex-row items-center gap-3 justify-between px-2 py-2 bg-gray-50 dark:bg-gray-900 rounded-md border border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-2">
+          <label htmlFor="genre-filter" className="text-sm font-medium">
+            Genre:
+          </label>
+          <select
+            id="genre-filter"
+            className="border rounded px-2 py-1 text-sm dark:bg-gray-800 dark:text-gray-100"
+            value={filter || ""}
+            onChange={handleGenreFilterChange}
+          >
+            <option value="">All</option>
+            {GENRES.map((g) => (
+              <option key={g} value={g}>
+                {g.charAt(0) + g.slice(1).toLowerCase()}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex items-center gap-2">
+          <label htmlFor="sort-by" className="text-sm font-medium">
+            Sort By:
+          </label>
+          <select
+            id="sort-by"
+            className="border rounded px-2 py-1 text-sm dark:bg-gray-800 dark:text-gray-100"
+            value={sortBy || "createdAt"}
+            onChange={handleSortByChange}
+          >
+            {SORTABLE_COLUMNS.map((col) => (
+              <option key={col.key} value={col.key}>
+                {col.label}
+              </option>
+            ))}
+          </select>
+          <select
+            id="sort-order"
+            className="border rounded px-2 py-1 text-sm dark:bg-gray-800 dark:text-gray-100"
+            value={sort || "desc"}
+            onChange={handleSortOrderChange}
+          >
+            <option value="asc">Asc</option>
+            <option value="desc">Desc</option>
+          </select>
+        </div>
+      </div>
+
       {(isLoading || isFetching) && (
         <div className="flex flex-row items-center justify-center gap-3 py-6">
           <Loader2 className="h-6 w-6 animate-spin text-primary" />
@@ -119,23 +290,7 @@ export function BookTable() {
         <>
           <div className="shadow">
             <Table>
-              <TableHeader>
-                <TableRow>
-                  {[
-                    "Title",
-                    "Author",
-                    "Genre",
-                    "ISBN",
-                    "Copies",
-                    "Availability",
-                    "Actions",
-                  ].map((header) => (
-                    <TableHead key={header} className="font-semibold">
-                      {header}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
+              <TableHeader>{renderTableHead()}</TableHeader>
               <TableBody>
                 {books.map((book) => (
                   <TableRow
