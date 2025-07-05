@@ -13,7 +13,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { IBook } from "@/services/types";
@@ -37,11 +43,9 @@ export default function CreateBookPage() {
       available: true,
     },
   });
-  
 
   const onSubmit = async (data: IBook) => {
     try {
-
       await createBook({
         ...data,
         copies: Number(data.copies),
@@ -52,7 +56,7 @@ export default function CreateBookPage() {
       navigate("/books");
     } catch (error: unknown) {
       console.error(error);
-      const message = "Failed to create book.";      
+      const message = "Failed to create book.";
       toast(message, { description: "Error", className: "text-red-600" });
     }
   };
@@ -77,7 +81,9 @@ export default function CreateBookPage() {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Title</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Title
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Book title"
@@ -96,7 +102,9 @@ export default function CreateBookPage() {
                 name="author"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Author</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Author
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Author name"
@@ -115,7 +123,9 @@ export default function CreateBookPage() {
                 name="genre"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Genre</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Genre
+                    </FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <SelectTrigger className="rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary">
                         <SelectValue placeholder="Select genre" />
@@ -140,7 +150,9 @@ export default function CreateBookPage() {
                 name="isbn"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">ISBN</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      ISBN
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="ISBN number"
@@ -159,7 +171,9 @@ export default function CreateBookPage() {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Description</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Description
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="Short description"
@@ -178,13 +192,19 @@ export default function CreateBookPage() {
                 name="copies"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg font-semibold">Copies</FormLabel>
+                    <FormLabel className="text-lg font-semibold">
+                      Copies
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
                         min={1}
                         value={field.value}
-                        onChange={(e) => field.onChange(Number(e.target.value))}
+                        onChange={(e) => {
+                          const copies = Number(e.target.value);
+                          field.onChange(copies);
+                          form.setValue("available", copies > 0);
+                        }}
                         className="rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                       />
                     </FormControl>
@@ -199,7 +219,9 @@ export default function CreateBookPage() {
                 name="available"
                 render={({ field }) => (
                   <FormItem className="flex items-center gap-4">
-                    <FormLabel className="text-lg font-semibold mb-0">Available</FormLabel>
+                    <FormLabel className="text-lg font-semibold mb-0">
+                      Available
+                    </FormLabel>
                     <FormControl>
                       <Switch
                         checked={field.value}
@@ -218,7 +240,9 @@ export default function CreateBookPage() {
                   disabled={isLoading}
                   className="w-full sm:w-auto px-8 py-3 rounded-lg text-lg font-semibold bg-primary hover:bg-primary/90 transition-colors"
                 >
-                  {isLoading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                  {isLoading && (
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  )}
                   Add Book
                 </Button>
               </div>
