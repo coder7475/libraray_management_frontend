@@ -1,134 +1,122 @@
-# 📚 Library Management Frontend [![Version](https://img.shields.io/badge/version-v1.0.0-blue)](https://github.com/coder7475/libraray_management_frontend/releases/tag/v1.0.0)
+## 📚 Library Management Frontend [![Version](https://img.shields.io/badge/version-v1.1.0-blue)](https://github.com/coder7475/libraray_management_frontend/releases/tag/v1.1.0)
 
-A modern library management app built with React, TypeScript, Vite, Redux Toolkit, RTK Query, Tailwind CSS, and Shadcn UI.  
-Includes CRUD for books, borrowing flow, modals, clean UI, type-safe forms, and ready-to-deploy Cloudflare integration.
+A modern library management frontend built with **React**, **TypeScript**, **Vite**, **Redux Toolkit**, **RTK Query**, **Tailwind CSS**, and **Shadcn UI**.
+Includes CRUD, borrow flow, genre filter, pagination, modals, type-safe forms, and is ready to deploy.
 
 ---
 
-> **Looking for the backend?**  
-> The API server for this project is available at:  
-> [github.com/coder7475/library_management_apis](https://github.com/coder7475/library_management_apis)
+> **Looking for the backend?**
+> 👉 [github.com/coder7475/library_management_apis](https://github.com/coder7475/library_management_apis)
 
 ---
 
 ## ✨ Features
 
-### 📄 **Number of pages (explicit routes):**
+### 📄 **Pages (explicit routes):**
 
-| Route             | Purpose                                                         |
-| ----------------- | --------------------------------------------------------------- |
-| `/books`          | View list of all books with actions: view, edit, delete, borrow |
-| `/create-book`    | Form to add a new book                                          |
-| `/books/:id`      | View details of a single book                                   |
-| `/edit-book/:id`  | Edit form for existing book                                     |
-| `/borrow/:bookId` | Form to borrow selected book                                    |
-| `/borrow-summary` | Aggregated summary of borrowed books                            |
-| `/about`          | About Us page with information about the library/app            |
-| `/contact`        | Contact Us page for user inquiries or support                   |
-| `/terms`          | Terms & Conditions page outlining usage policies                |
+| Route             | Purpose                                                                       |
+| ----------------- | ----------------------------------------------------------------------------- |
+| `/books`          | List & manage all books: view, edit, delete, borrow, filter, sort, pagination |
+| `/create-book`    | Add a new book                                                                |
+| `/books/:id`      | Detailed view of a single book                                                |
+| `/edit-book/:id`  | Edit existing book                                                            |
+| `/borrow/:bookId` | Borrow a book                                                                 |
+| `/borrow-summary` | Aggregated summary of borrowed books                                          |
+| `/about`          | About the library or app                                                      |
+| `/contact`        | Contact or support                                                            |
+| `/terms`          | Terms & conditions                                                            |
 
-✅ **Total pages:** **9 main pages**
+✅ **Total pages:** **9+**
 
 ---
 
 ### 🧩 **Components & UI features:**
 
-- **Navbar** – links to All Books, Add Book, Borrow Summary
+- **Navbar** – navigation links
 - **Footer** – site info / credits
-- **Book List Table / Grid**
-  - Shows Title, Author, Genre, ISBN, Copies, Availability, Actions
+- **Book Table & Grid views** with:
+
+  - Title, Author, Genre, ISBN, Copies, Availability, Actions
   - Actions: Edit, Delete, Borrow
+
+- **Genre selector** – 3×3 grid with icons
+- **Filter & Sort controls** – by genre, title, author, etc.
+- **Pagination & limit selector** – change page and items per page
 - **Forms:**
-  - Add Book form (title, author, genre, ISBN, description, copies, availability)
-  - Edit Book form (pre-filled)
-  - Borrow Book form (quantity, due date)
-- **Dialogs / Modals:**
-  - Confirm delete
+
+  - Add Book
+  - Edit Book
+  - Borrow Book
+
+- **Modals:**
+
   - Edit book
+  - Confirm delete
   - Borrow book
-- **Borrow Summary Table:**
-  - Book title, ISBN, total quantity borrowed
-- **Toast Notifications**
-- **Responsive design** for desktop, tablet, and mobile
-- **Optimistic UI updates** (bonus)
-- **Type-safe forms** using React Hook Form + Zod
-- **Clean minimalist UI** built with Tailwind CSS & Shadcn UI
+
+- **Borrow summary table** – total quantity borrowed per book
+- **Toasts** for success & error
+- **Responsive design** for all devices
+- **Optimistic updates** and type-safe forms
 
 ---
 
 ### ⚙ **Business logic & behaviors:**
 
-- **Edit / Borrow:**
-  - Quantity cannot exceed available copies
-  - Copies ≤ 0 → mark book unavailable in UI
-- **After create / update / delete:**
-  - Redirect appropriately & refresh list
-- **Borrow Book flow:**
-  - On borrow → redirect to `/borrow-summary`
-- **Borrow summary:**
-  - Uses aggregation API to show total quantity borrowed per book
+- Filter books by genre from genre selector grid
+- Sort books by title, author, etc.
+- Pagination: change page & limit
+- Cannot borrow more copies than available
+- After adding, editing, or deleting a book: list auto-refreshes
+- Borrow redirects to summary page
 
 ---
 
 ## 🛠 **Tech Stack**
 
-- React + TypeScript
-- Vite
-- Redux Toolkit + RTK Query
-- Tailwind CSS
-- Shadcn UI
+- React + TypeScript + Vite
+- Redux Toolkit & RTK Query
+- Tailwind CSS & Shadcn UI
+- React Router DOM
+- React Hook Form + Zod (validation)
 - ESLint & Prettier
-- Cloudflare Pages / Workers (optional)
+- Optional: Cloudflare Pages / Workers
 
 ---
 
 ## 🚀 **Getting Started**
 
-1. **Clone the repository:**
+1. **Clone the repo:**
 
-   ```bash
-   git clone git@github.com:coder7475/libraray_management_frontend.git
-   cd libraray_management_frontend
-   ```
+```bash
+git clone git@github.com:coder7475/libraray_management_frontend.git
+cd libraray_management_frontend
+```
 
 2. **Install dependencies:**
 
-   ```bash
-   pnpm install
-   ```
+```bash
+pnpm install
+```
 
-3. **Start the development server:**
-   ```bash
-   pnpm run dev
-   ```
-   The app will be available at [http://localhost:5173](http://localhost:5173) by default.
+3. **Start development server:**
+
+```bash
+pnpm run dev
+```
+
+The app will run by default at: [http://localhost:5173](http://localhost:5173)
 
 ---
 
-### 🛠️ **Other Useful Commands**
+## 🧰 **Useful Commands**
 
-- **Build for production:**
-
-  ```bash
-  pnpm run build
-  ```
-
-- **Preview the production build:**
-
-  ```bash
-  pnpm run preview
-  ```
-
-- **Run linter:**
-
-  ```bash
-  pnpm run lint
-  ```
-
-- **Deploy to Cloudflare Pages:**
-  ```bash
-  pnpm run deploy
-  ```
+| Command            | Purpose                                    |
+| ------------------ | ------------------------------------------ |
+| `pnpm run build`   | Build for production                       |
+| `pnpm run preview` | Preview built app locally                  |
+| `pnpm run lint`    | Run ESLint checks                          |
+| `pnpm run deploy`  | Deploy to Cloudflare Pages (if configured) |
 
 ---
 
@@ -136,42 +124,37 @@ Includes CRUD for books, borrowing flow, modals, clean UI, type-safe forms, and 
 
 ```
 .
-├── components.json
-├── eslint.config.js
-├── index.html
-├── package.json
-├── pnpm-lock.yaml
-├── public
-│   └── vite.svg
-├── README.md
 ├── src
-│   ├── App.css
-│   ├── App.tsx
-│   ├── assets
-│   ├── components
-│   ├── global
-│   ├── hooks
-│   ├── index.css
-│   ├── lib
-│   ├── main.tsx
-│   ├── pages
-│   ├── providers
-│   ├── router
-│   ├── services
-│   ├── validators
-│   └── vite-env.d.ts
-├── tsconfig.app.json
+│   ├── components        # Reusable UI & feature components
+│   ├── pages             # Pages for routes
+│   ├── global            # Redux slices, store
+│   ├── services          # RTK Query APIs
+│   ├── hooks             # Custom hooks
+│   ├── validators        # Zod schemas
+│   ├── router            # React Router config
+│   ├── lib               # Utilities
+│   └── providers         # App context & providers
+├── worker                # (Optional) Cloudflare Worker
+├── public                # Static assets
+├── package.json
 ├── tsconfig.json
-├── tsconfig.node.json
-├── tsconfig.worker.json
 ├── vite.config.ts
-├── worker
-│   └── index.ts
-├── worker-configuration.d.ts
-└── wrangler.jsonc
+└── README.md
 ```
 
-**Note:**  
-Make sure you have [pnpm](https://pnpm.io/) installed globally. If not, install it with:
+---
+
+## ✅ **Before you start**
+
+Make sure you have [pnpm](https://pnpm.io/) installed globally:
+
+```bash
+npm install -g pnpm
+```
 
 ---
+
+## 📢 **Contributions & Feedback**
+
+Feel free to open issues or pull requests!
+Let's make this library app even better. 🌱
