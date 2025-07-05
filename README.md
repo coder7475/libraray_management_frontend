@@ -23,8 +23,11 @@ Includes CRUD for books, borrowing flow, modals, clean UI, type-safe forms, and 
 | `/edit-book/:id`  | Edit form for existing book                                     |
 | `/borrow/:bookId` | Form to borrow selected book                                    |
 | `/borrow-summary` | Aggregated summary of borrowed books                            |
+| `/about`          | About Us page with information about the library/app            |
+| `/contact`        | Contact Us page for user inquiries or support                   |
+| `/terms`          | Terms & Conditions page outlining usage policies                |
 
-✅ **Total pages:** **6 main pages**
+✅ **Total pages:** **9 main pages**
 
 ---
 
@@ -129,9 +132,46 @@ Includes CRUD for books, borrowing flow, modals, clean UI, type-safe forms, and 
 
 ---
 
+## 📦 **Folder Structure**
+
+```
+.
+├── components.json
+├── eslint.config.js
+├── index.html
+├── package.json
+├── pnpm-lock.yaml
+├── public
+│   └── vite.svg
+├── README.md
+├── src
+│   ├── App.css
+│   ├── App.tsx
+│   ├── assets
+│   ├── components
+│   ├── global
+│   ├── hooks
+│   ├── index.css
+│   ├── lib
+│   ├── main.tsx
+│   ├── pages
+│   ├── providers
+│   ├── router
+│   ├── services
+│   ├── validators
+│   └── vite-env.d.ts
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+├── tsconfig.worker.json
+├── vite.config.ts
+├── worker
+│   └── index.ts
+├── worker-configuration.d.ts
+└── wrangler.jsonc
+```
+
 **Note:**  
 Make sure you have [pnpm](https://pnpm.io/) installed globally. If not, install it with:
 
 ---
-
-## 📦 **Folder Structure**
