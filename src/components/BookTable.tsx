@@ -29,26 +29,7 @@ import Pagination from "./Pagination";
 
 // Redux actions for filter/sort
 import { setFilter, setSortBy, setSort } from "@/global/slices/booksSlice";
-
-const GENRES = [
-  "FICTION",
-  "NON_FICTION",
-  "SCIENCE",
-  "HISTORY",
-  "BIOGRAPHY",
-  "FANTASY",
-  "OTHER",
-];
-
-const SORTABLE_COLUMNS = [
-  { key: "title", label: "Title" },
-  { key: "author", label: "Author" },
-  { key: "genre", label: "Genre" },
-  { key: "isbn", label: "ISBN" },
-  { key: "copies", label: "Copies" },
-  { key: "available", label: "Availability" },
-  { key: "createdAt", label: "Created At" },
-];
+import { GENRES, SORTABLE_COLUMNS } from "@/global/constants";
 
 export function BookTable() {
   const { page, limit, filter, sortBy, sort } = useAppSelector(
