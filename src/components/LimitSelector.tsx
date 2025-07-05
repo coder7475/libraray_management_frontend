@@ -22,7 +22,7 @@ export default function LimitSelector() {
         id="limit-select"
         value={limit}
         onChange={handleChange}
-        className="border rounded px-2 py-1 text-sm"
+        className="border rounded px-2 py-1 text-sm cursor-default"
       >
         {LIMIT_OPTIONS.map((opt) => (
           <option key={opt} value={opt}>

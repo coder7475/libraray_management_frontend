@@ -14,6 +14,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
   return (
     <div className="flex justify-center flex-wrap gap-2 pt-4">
       <Button
+        className="cursor-pointer"
         size="sm"
         variant="outline"
         disabled={page === 1}
@@ -23,6 +24,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
       </Button>
       {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
         <Button
+          className="cursor-pointer"
           key={num}
           size="sm"
           variant={num === page ? "default" : "outline"}
@@ -32,6 +34,7 @@ export default function Pagination({ totalPages }: PaginationProps) {
         </Button>
       ))}
       <Button
+        className="cursor-pointer"
         size="sm"
         variant="outline"
         disabled={page === totalPages}
