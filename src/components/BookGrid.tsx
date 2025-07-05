@@ -84,24 +84,26 @@ export function BookGrid() {
   };
 
   return (
-    <div className="p-2 sm:p-4 space-y-4">
-      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center text-primary tracking-tight drop-shadow">
+    <div className="p-2 sm:p-4 space-y-4 bg-white dark:bg-gray-900 transition-colors duration-300">
+      <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center text-primary dark:text-primary-300 tracking-tight drop-shadow">
         Latest Books
       </h2>
 
       {isLoading || isFetching ? (
         <div className="flex items-center justify-center gap-3 py-6">
-          <Loader2 className="h-6 w-6 animate-spin text-primary" />
-          <span className="text-base sm:text-lg font-medium">
+          <Loader2 className="h-6 w-6 animate-spin text-primary dark:text-primary-300" />
+          <span className="text-base sm:text-lg font-medium text-gray-700 dark:text-gray-200">
             Loading Books...
           </span>
         </div>
       ) : isError ? (
-        <div className="text-center text-red-500">
+        <div className="text-center text-red-500 dark:text-red-400">
           Error fetching books: {String(error)}
         </div>
       ) : books.length === 0 ? (
-        <div className="text-center text-gray-500">No books available.</div>
+        <div className="text-center text-gray-500 dark:text-gray-400">
+          No books available.
+        </div>
       ) : (
         <>
           <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
