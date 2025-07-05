@@ -7,18 +7,12 @@ export function Footer() {
       <div className="container flex flex-wrap items-center justify-center px-4 py-8 mx-auto lg:justify-between">
         <ul className="flex items-center space-x-4 text-sm font-medium text-gray-700 dark:text-gray-200">
           <li>
-            <Link
-              to="/"
-              className="hover:text-primary transition-colors"
-            >
+            <Link to="/" className="hover:text-primary transition-colors">
               Home
             </Link>
           </li>
           <li>
-            <Link
-              to="/about"
-              className="hover:text-primary transition-colors"
-            >
+            <Link to="/about" className="hover:text-primary transition-colors">
               About
             </Link>
           </li>
@@ -31,10 +25,7 @@ export function Footer() {
             </Link>
           </li>
           <li>
-            <Link
-              to="/terms"
-              className="hover:text-primary transition-colors"
-            >
+            <Link to="/terms" className="hover:text-primary transition-colors">
               Terms &amp; Conditions
             </Link>
           </li>
@@ -71,7 +62,7 @@ export function Footer() {
       </div>
       <div className="pb-2">
         <p className="text-center text-xs text-gray-500 dark:text-gray-400">
-          &copy; 2024 All rights reserved by Book Library.
+          &copy; 2025 All rights reserved by Book Library.
         </p>
       </div>
     </footer>
